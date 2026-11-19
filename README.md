@@ -27,5 +27,6 @@ python scripts/01_build_metadata.py         # phase 1: merge annotation files, d
 python scripts/02_download.py               # phase 1: download + shrink the sampled images (~15 min)
 python scripts/03_audit.py                  # phase 1: audit, figures, per-image IR/sharpness stats
 python scripts/03b_full_cct_context.py      # phase 1: empty share of the FULL dataset (metadata only)
-```
 python scripts/04_splits.py                 # phase 2: random-image / random-sequence / held-out-camera splits + leakage measurement
+python scripts/05_preprocess_figure.py      # phase 3: preprocessing figures + normalisation statistics
+```

@@ -28,3 +28,4 @@ python scripts/02_download.py               # phase 1: download + shrink the sam
 python scripts/03_audit.py                  # phase 1: audit, figures, per-image IR/sharpness stats
 python scripts/03b_full_cct_context.py      # phase 1: empty share of the FULL dataset (metadata only)
 ```
+python scripts/04_splits.py                 # phase 2: random-image / random-sequence / held-out-camera splits + leakage measurement

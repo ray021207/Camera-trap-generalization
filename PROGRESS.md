@@ -3,7 +3,7 @@
 ## Status
 - [x] Phase 0 — environment (results/phase0.json)
 - [x] Phase 1 — data download + audit (results/phase1_*.json, figures/p1_*.png)
-- [ ] Phase 2 — splits (scripts/04_splits.py written, not yet run)
+- [x] Phase 2 — splits (results/phase2_splits.json)
 - [ ] Phase 3 — preprocessing figure (scripts/05_preprocess_figure.py written, not run)
 - [ ] Phase 4 — embeddings (06), linear probe (07), UMAP (08): written, not run
 - [ ] Phase 5 — evaluation (09) + failure gallery (10): written, not run
@@ -11,7 +11,7 @@
 - [ ] Phase 7 — write-up (12_make_tables.py fills the README table)
 
 ## Next
-Run scripts/04_splits.py, then 05, then 06 --mode full (about 20-30 min on CPU).
+Phase 3 figure done (scripts/05). Next: 06 --mode full (embeddings, ~20-30 min), 07, 08.
 
 ## Blockers / decisions
 - Pushing: remote `origin` = https://github.com/ray021207/Camera-trap-generalization.git is configured locally and NOT pushed (brief says ask before pushing).

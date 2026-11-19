@@ -1,0 +1,70 @@
+{
+  "fractions": {
+    "train": 0.7,
+    "val": 0.1,
+    "test": 0.2
+  },
+  "seed": 42,
+  "split_a_image_counts": {
+    "train": 11542,
+    "test": 3298,
+    "val": 1649
+  },
+  "split_a_class_counts_test": {
+    "opossum": 760,
+    "rabbit": 507,
+    "cat": 306,
+    "coyote": 300,
+    "raccoon": 235,
+    "empty": 223,
+    "squirrel": 217,
+    "bobcat": 187,
+    "dog": 161,
+    "car": 151,
+    "bird": 118,
+    "rodent": 83,
+    "skunk": 50
+  },
+  "split_b_image_counts": {
+    "train": 11511,
+    "test": 3332,
+    "val": 1646
+  },
+  "split_b_class_counts_test": {
+    "opossum": 699,
+    "rabbit": 489,
+    "cat": 363,
+    "coyote": 339,
+    "raccoon": 243,
+    "empty": 237,
+    "dog": 203,
+    "squirrel": 197,
+    "bobcat": 197,
+    "bird": 129,
+    "car": 129,
+    "rodent": 68,
+    "skunk": 39
+  },
+  "unseen_image_counts": {
+    "unseen_test": 11616,
+    "unseen_val": 838
+  },
+  "check_b_sequences_shared_train_test": 0,
+  "check_c_locations_shared_train_unseen": 0,
+  "a_test_images_with_burst_mate_in_train": 2720,
+  "a_share_test_images_with_burst_mate_in_train": 0.8247422680412371,
+  "a_n_test_images": 3298,
+  "a_share_test_sequences_split_across_train_test": 0.8377483443708609,
+  "b_test_images_with_burst_mate_in_train": 0,
+  "b_share_test_images_with_burst_mate_in_train": 0.0,
+  "b_n_test_images": 3332,
+  "b_share_test_sequences_split_across_train_test": 0.0,
+  "pixel_distance_test_vs_burst_mate_in_train_mean_abs_diff_0to255": 1.5245670572916667,
+  "pixel_distance_test_vs_other_sequence_same_camera_mean_abs_diff_0to255": 48.257556332270305,
+  "share_test_images_closer_to_burst_mate_than_to_other_sequence": 1.0,
+  "share_burst_mates_with_same_label": 0.9993333333333333,
+  "n_leakage_pairs_measured": 1500,
+  "b_test_sequence_gap_minutes_to_nearest_train_sequence_same_camera_median": 69.05,
+  "b_share_test_sequences_within_60min_of_a_train_sequence": 0.4881949733434882,
+  "b_share_test_sequences_within_24h_of_a_train_sequence": 0.9108910891089109
+}

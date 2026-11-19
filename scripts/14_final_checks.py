@@ -51,9 +51,7 @@ def main():
     notes_path = ROOT / "NOTES.md"      # private study guide: kept out of git; checked only when present
     if notes_path.exists():
         notes = notes_path.read_text(encoding="utf-8")
-        phases = {sec.split("
-")[0]: sec for sec in re.split(r"
-## ", notes) if sec.startswith("Phase ")}
+        phases = {sec.split(chr(10))[0]: sec for sec in re.split(chr(10) + "## ", notes) if sec.startswith("Phase ")}
         missing = {p: [h for h in SUBHEADS if f"### {h}" not in body] for p, body in phases.items()}
         out["private_notes_all_phases_have_all_subheadings"] = not any(missing.values()) and len(phases) == 8
     readme = (ROOT / "README.md").read_text(encoding="utf-8")

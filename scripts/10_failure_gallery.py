@@ -73,39 +73,64 @@ def main():
     animal = (u.label != "empty") & (u.label != "car") & u.has_box
     thr = float(np.nanpercentile(u.box_sharp[animal], BLUR_PCTL))
 
-    u["f_empty"] = (u.label == "empty") | (u.pred_b == "empty")
-    u["f_vehicle"] = (u.label == "car") | (u.pred_b == "car")
+    # ---- image properties that do NOT depend on the prediction (used for base-rate / error-rate tables)
     u["f_ir"] = u.is_ir
-    u["f_tiny_partial"] = (~u.f_empty) & (~u.has_box | (u.box_area < TINY_AREA) | u.touches_border)
-    u["f_blur"] = (u.box_sharp < thr)
-    u["f_lookalike"] = [same_group(a, b) for a, b in zip(u.label, u.pred_b)]
+    u["f_no_md_box"] = ~u.has_box
+    u["f_tiny_box"] = u.has_box & (u.box_area < TINY_AREA)
+    u["f_box_touches_border"] = u.touches_border
+    u["f_soft_box"] = (u.box_sharp < thr)
+    u["f_true_empty"] = u.label == "empty"
+    u["f_true_car"] = u.label == "car"
+    u["f_tiny_partial_or_undetected"] = u.f_no_md_box | u.f_tiny_box | u.f_box_touches_border
+    # ---- prediction-dependent flags (only meaningful for errors)
+    u["c_empty"] = (u.label == "empty") | (u.pred_b == "empty")
+    u["c_vehicle"] = (u.label == "car") | (u.pred_b == "car")
+    u["c_lookalike"] = [(a != b) and same_group(a, b) for a, b in zip(u.label, u.pred_b)]
 
-    def cat(r):
-        if r.f_empty: return ORDER[0]
-        if r.f_vehicle: return ORDER[1]
-        if r.f_ir: return ORDER[2]
-        if r.f_tiny_partial: return ORDER[3]
-        if r.f_blur: return ORDER[4]
-        if r.f_lookalike: return ORDER[5]
+    def cat(r, order_ir_first):
+        if r.c_empty: return ORDER[0]
+        if r.c_vehicle: return ORDER[1]
+        if order_ir_first and r.f_ir: return ORDER[2]
+        if r.f_tiny_partial_or_undetected: return ORDER[3]
+        if r.f_soft_box: return ORDER[4]
+        if r.c_lookalike: return ORDER[5]
+        if (not order_ir_first) and r.f_ir: return ORDER[2] + " (no other flag)"
         return ORDER[6]
-    u["category"] = [cat(r) if r.error else "" for r in u.itertuples()]
+    u["category"] = [cat(r, True) if r.error else "" for r in u.itertuples()]
+    u["category_ir_demoted"] = [cat(r, False) if r.error else "" for r in u.itertuples()]
     u["wrong_conf"] = np.where(u.error, u.conf_b, np.nan)
-    u[["id", "file_name", "label", "pred_b", "conf_b", "error", "category", "location"] + [c for c in u if c.startswith("f_")]].to_csv(
-        DATA / "failure_table.csv", index=False)
+    keep = ["id", "file_name", "label", "pred_b", "conf_b", "error", "category", "category_ir_demoted", "location"]
+    u[keep + [c for c in u if c.startswith(("f_", "c_"))]].to_csv(DATA / "failure_table.csv", index=False)
 
     E = u[u.error]
+    ORDER2 = [ORDER[0], ORDER[1], ORDER[3], ORDER[4], ORDER[5], ORDER[2] + " (no other flag)", ORDER[6]]
     out = {"n_unseen_test": int(len(u)), "n_errors": int(len(E)), "error_rate": float(len(E) / len(u)),
            "thresholds": dict(md_conf=MD_CONF, tiny_box_area=TINY_AREA, border=BORDER, blur_percentile=BLUR_PCTL, blur_laplacian_var=thr),
-           "category_priority_order": ORDER,
+           "category_priority_order_primary": ORDER,
            "category_counts": {c: int((E.category == c).sum()) for c in ORDER},
-           "category_share_of_errors": {c: float((E.category == c).mean()) for c in ORDER}}
+           "category_share_of_errors": {c: float((E.category == c).mean()) for c in ORDER},
+           "category_priority_order_ir_demoted": ORDER2,
+           "category_counts_ir_demoted": {c: int((E.category_ir_demoted == c).sum()) for c in ORDER2},
+           "category_share_of_errors_ir_demoted": {c: float((E.category_ir_demoted == c).mean()) for c in ORDER2}}
     emp = E[E.category == ORDER[0]]
     out["empty_confusion_breakdown"] = {"animal_or_car_predicted_empty": int((emp.pred_b == "empty").sum()),
                                         "empty_predicted_as_animal_or_car": int((emp.label == "empty").sum())}
     out["top_confusions_true_to_pred"] = {f"{a} -> {b}": int(n) for (a, b), n in E.groupby(["label", "pred_b"]).size().sort_values(ascending=False).head(12).items()}
-    flags = [c for c in u if c.startswith("f_")]
-    out["flag_rates_non_exclusive"] = {f: dict(share_of_errors=float(E[f].mean()), share_of_all_unseen_test=float(u[f].mean()),
-                                               lift=float(E[f].mean() / max(u[f].mean(), 1e-9))) for f in flags}
+    out["lookalike_confusions_share_of_errors"] = float(E.c_lookalike.mean())
+
+    def table(d):
+        res = {}
+        for f in [c for c in u if c.startswith("f_")]:
+            m = d[f].astype(bool)
+            res[f] = dict(share_of_images=float(m.mean()), share_of_errors=float(d.error[m].sum() / max(d.error.sum(), 1)),
+                          error_rate_if_flag=float(d.error[m].mean()) if m.any() else None,
+                          error_rate_if_not_flag=float(d.error[~m].mean()) if (~m).any() else None)
+        return res
+    out["property_vs_error_all_unseen_test_images"] = table(u)
+    out["property_vs_error_animal_frames_only"] = table(u[~u.label.isin(["empty", "car"])])
+    out["share_unseen_test_images_ir_by_true_class_error_rate"] = {c: dict(ir_share=float(g.is_ir.mean()), error_rate_ir=float(g.error[g.is_ir].mean()) if g.is_ir.any() else None,
+                                                                           error_rate_colour=float(g.error[~g.is_ir].mean()) if (~g.is_ir).any() else None)
+                                                                  for c, g in u.groupby("label")}
     out["errors_per_location"] = {int(l): dict(n=int(len(g)), errors=int(g.error.sum()), error_rate=float(g.error.mean())) for l, g in u.groupby("location")}
     out["unseen_test_share_with_no_md_box"] = float((~u.has_box).mean())
     out["unseen_test_animal_frames_with_no_md_box"] = float((~u.has_box[(u.label != "empty")]).mean())
@@ -135,8 +160,9 @@ def main():
         axes[i, 0].set_ylabel(f"{textwrap.fill(c, 18)}\n(n={len(g)})", fontsize=8.5)
     fig.suptitle("Random examples per error category (unseen cameras)", y=0.998)
     fig.tight_layout(); fig.savefig(FIGURES / "p5_failure_categories.png", dpi=90); plt.close(fig)
-    print(json.dumps({k: out[k] for k in ["n_errors", "error_rate", "thresholds", "category_counts", "empty_confusion_breakdown", "top_confusions_true_to_pred"]}, indent=1))
-    print({f: (round(v["share_of_errors"], 3), round(v["share_of_all_unseen_test"], 3), round(v["lift"], 2)) for f, v in out["flag_rates_non_exclusive"].items()})
+    print(json.dumps({k: out[k] for k in ["n_errors", "error_rate", "category_counts", "category_counts_ir_demoted", "empty_confusion_breakdown", "lookalike_confusions_share_of_errors"]}, indent=1))
+    print({f: (round(v["share_of_images"], 3), round(v["share_of_errors"], 3), v["error_rate_if_flag"] and round(v["error_rate_if_flag"], 3), v["error_rate_if_not_flag"] and round(v["error_rate_if_not_flag"], 3)) for f, v in out["property_vs_error_animal_frames_only"].items()})
+    print({f: (round(v["share_of_images"], 3), round(v["share_of_errors"], 3), v["error_rate_if_flag"] and round(v["error_rate_if_flag"], 3), v["error_rate_if_not_flag"] and round(v["error_rate_if_not_flag"], 3)) for f, v in out["property_vs_error_all_unseen_test_images"].items()})
 
 
 if __name__ == "__main__":

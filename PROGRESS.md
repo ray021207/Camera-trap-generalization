@@ -6,7 +6,7 @@
 - [x] Phase 2 — splits (results/phase2_splits.json)
 - [x] Phase 3 — preprocessing (results/phase3.json, figures/p3_*.png)
 - [x] Phase 4 — embeddings, linear probe, UMAP (results/phase4_*.json)
-- [ ] Phase 5 — evaluation (09) + failure gallery (10): written, not run
+- [x] Phase 5 — evaluation + failure gallery (results/phase5_*.json)
 - [ ] Phase 6 — MegaDetector crops: 06 --mode crop, 07/08/09 --feature crop, 11_mitigation_compare
 - [ ] Phase 7 — write-up (12_make_tables.py fills the README table)
 

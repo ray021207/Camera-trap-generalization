@@ -8,10 +8,10 @@
 - [x] Phase 4 — embeddings, linear probe, UMAP (results/phase4_*.json)
 - [x] Phase 5 — evaluation + failure gallery (results/phase5_*.json)
 - [x] Phase 6 — MegaDetector crops + mask control (results/phase6_*.json)
-- [ ] Phase 7 — write-up (12_make_tables.py fills the README table)
+- [x] Phase 7 — write-up, licences, final checks (results/phase7_final_checks.json)
 
 ## Next
-Phase 7: run scripts/12_make_tables.py, finish README (figures, what I learned, limitations), NOTES big-picture + quiz + interview Qs, final checks (git log attribution, storage).
+All 7 phases done. Remaining, needs the owner: (1) decide whether to push to the GitHub remote (configured as `origin`, never pushed); (2) pick a licence for the repo's own code; (3) optional follow-ups listed in README 'What I would do next'.
 
 ## Licences (done)
 LICENSES_AND_ATTRIBUTION.md + licenses/ + THIRD_PARTY_LICENSES.md written. Open points: MegaDetector v5a WEIGHT licence is unclear (we only use LILA's precomputed boxes; results JSON has no stated licence, not redistributed); the repo's own code licence is not chosen yet (owner's decision).
@@ -21,7 +21,7 @@ LICENSES_AND_ATTRIBUTION.md + licenses/ + THIRD_PARTY_LICENSES.md written. Open 
 - MegaDetector is not run locally: LILA's precomputed MDv5a detections are used (CPU inference on ~29k full-size images is impractical). State this wherever Phase 6 is described.
 
 ## Storage used (budget 6 GB)
-venv ~1.2 GB + data/img 2.17 GB + small files, about 3.5 GB. Re-check with `du -sh .` after Phase 4.
+3.798 GB excluding .git (data/ 2.646 GB, .venv 1.141 GB) per results/phase7_final_checks.json.
 
 ## Resume instructions
 Activate the venv (`.venv\Scripts\activate`), read "Reproduce" in README.md, run the next unchecked script.

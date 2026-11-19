@@ -43,6 +43,13 @@ def main():
                       ("Seen-minus-unseen gap", "{}_gap_change_crop_minus_full")]:
         a, m = d[key.format("accuracy")], d[key.format("macro_f1")]
         t.append(f"| {name} | {a['value']:+.3f} [{a['ci95'][0]:+.3f}, {a['ci95'][1]:+.3f}] | {m['value']:+.3f} [{m['ci95'][0]:+.3f}, {m['ci95'][1]:+.3f}] |")
+    ctl = load_json("phase6_control_mask")
+    t += ["", "Control: is it the background, or the zoom? (paired 95% CI; same frozen backbone and probe)", "",
+          "| Input to the model | Unseen-camera accuracy | Unseen-camera macro-F1 | Seen-minus-unseen accuracy gap |", "|---|---|---|---|"]
+    for name, v in [("whole frame (baseline)", "full"), ("whole frame, background greyed out (same resolution)", "mask"), ("MegaDetector crop", "crop")]:
+        r = ctl["variants"][v]
+        g = r["accuracy_gap_seen_minus_unseen"]
+        t.append(f"| {name} | {cell(r['unseen'], 'accuracy')} | {cell(r['unseen'], 'macro_f1')} | {g['value']:.3f} [{g['ci95'][0]:.3f}, {g['ci95'][1]:.3f}] |")
     t += ["", f"Test sizes: (a) {f['setups']['a_random_image']['n_images']} images, (b) {f['setups']['b_random_sequence']['n_images']} images, "
               f"(c) {f['setups']['c_unseen_locations']['n_images']} images in {f['setups']['c_unseen_locations']['n_sequences']} bursts. "
               f"CIs: {f['ci_method']}, {f['n_boot']} resamples."]

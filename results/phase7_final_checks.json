@@ -1,0 +1,32 @@
+{
+  "expected_results_files_missing": [],
+  "n_json_files_in_results": 24,
+  "folder_gb_excluding_dot_git": 3.798,
+  "data_dir_gb": 2.646,
+  "venv_gb": 1.141,
+  "budget_gb": 6.0,
+  "under_budget": true,
+  "notes_phases_found": [
+    "Phase 0 \u2014 Environment",
+    "Phase 1 \u2014 Data audit",
+    "Phase 2 \u2014 Splits",
+    "Phase 3 \u2014 Preprocessing",
+    "Phase 4 \u2014 Baseline: frozen backbone + linear probe, and the UMAP",
+    "Phase 5 \u2014 Evaluation on all three splits + failure gallery",
+    "Phase 6 \u2014 Mitigation: crop the animal with MegaDetector, then classify",
+    "Phase 7 \u2014 Write-up, licences and final checks"
+  ],
+  "notes_missing_subheadings": {},
+  "notes_has_big_picture": true,
+  "notes_has_quiz_with_details_block": true,
+  "notes_has_interview_questions": true,
+  "readme_results_table_filled": true,
+  "gitignore_has_required_entries": true,
+  "tracked_files_with_ai_attribution_strings": [],
+  "git_log_ai_attribution_hits": 0,
+  "n_commits": 8,
+  "commit_authors": [
+    "Reshma Panibhate <reshma.panibhate@gmail.com>"
+  ],
+  "remote_pushed": false
+}

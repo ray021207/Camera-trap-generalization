@@ -1,0 +1,713 @@
+{
+  "dataset_rights_holders_image_counts": {
+    "Justin Brown": 52912,
+    "Erin Boydston": 4952
+  },
+  "dataset_info_block": {
+    "contributor": "Sara Beery",
+    "date_created": "2018-07-03 18:34:36.573636",
+    "version": "Caltech Camera Traps - ECCV18",
+    "description": "Database of camera trap images collected from the NPS and the USGS with help from Justin Brown and Erin Boydston",
+    "year": 2018
+  },
+  "n_packages": 64,
+  "flagged": [],
+  "no_licence_file_copied": [
+    "tokenizers"
+  ],
+  "packages": [
+    {
+      "package": "annotated-doc",
+      "version": "0.0.7",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "annotated-types",
+      "version": "0.8.0",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "anyio",
+      "version": "4.16.0",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "certifi",
+      "version": "2026.10.23",
+      "license": "MPL-2.0",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "charset-normalizer",
+      "version": "3.5.2",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "click",
+      "version": "8.5.1",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "cloudpickle",
+      "version": "3.1.3",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "colorama",
+      "version": "0.4.6",
+      "license": "BSD License",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "contourpy",
+      "version": "1.4.0",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "cycler",
+      "version": "0.12.1",
+      "license": "BSD License",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "filelock",
+      "version": "4.2.4",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "fonttools",
+      "version": "4.68.0",
+      "license": "MIT",
+      "files": [
+        "LICENSE",
+        "LICENSE.external"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "fsspec",
+      "version": "2026.9.0",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "h11",
+      "version": "0.16.0",
+      "license": "MIT",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "hf-xet",
+      "version": "1.8.0",
+      "license": "Apache-2.0",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "httpcore2",
+      "version": "2.16.2",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE.md"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "httpx2",
+      "version": "2.16.2",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE.md"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "huggingface-hub",
+      "version": "2.4.0",
+      "license": "Apache-2.0",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "idna",
+      "version": "3.20",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE.md"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "jinja2",
+      "version": "3.1.6",
+      "license": "BSD License",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "joblib",
+      "version": "1.6.0",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "kiwisolver",
+      "version": "1.5.1",
+      "license": "BSD License",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "llvmlite",
+      "version": "0.50.0",
+      "license": "BSD-2-Clause AND Apache-2.0 WITH LLVM-exception",
+      "files": [
+        "LICENSE",
+        "LICENSE.thirdparty"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "markdown-it-py",
+      "version": "4.3.0",
+      "license": "MIT License",
+      "files": [
+        "LICENSE",
+        "LICENSE.markdown-it"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "markupsafe",
+      "version": "3.0.3",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "matplotlib",
+      "version": "3.11.2",
+      "license": "Python Software Foundation License",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "mdurl",
+      "version": "0.1.2",
+      "license": "MIT License",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "mpmath",
+      "version": "1.3.0",
+      "license": "BSD",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "narwhals",
+      "version": "2.29.0",
+      "license": "MIT",
+      "files": [
+        "LICENSE.md"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "networkx",
+      "version": "3.7",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "numba",
+      "version": "0.68.1",
+      "license": "BSD",
+      "files": [
+        "LICENSE",
+        "LICENSES.third-party"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "numpy",
+      "version": "2.5.4",
+      "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+      "files": [
+        "LICENSE.txt",
+        "LICENSE.txt",
+        "COPYING",
+        "LICENSE",
+        "dragon4_LICENSE.txt",
+        "LICENSE.md",
+        "LICENSE",
+        "LICENSE.md",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE.md",
+        "LICENSE.md",
+        "LICENSE.md",
+        "LICENSE.md",
+        "LICENSE.md",
+        "LICENSE.md",
+        "LICENSE.md"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "packaging",
+      "version": "26.3",
+      "license": "Apache-2.0 OR BSD-2-Clause",
+      "files": [
+        "LICENSE",
+        "LICENSE.APACHE",
+        "LICENSE.BSD"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pandas",
+      "version": "3.1.1",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE",
+        "BOTTLENECK_LICENCE",
+        "DATEUTIL_LICENSE",
+        "HAVEN_LICENSE",
+        "KLIB_LICENSE",
+        "MUSL_LICENSE",
+        "NUMPY_LICENSE",
+        "PACKAGING_LICENSE",
+        "PSF_LICENSE",
+        "PYPERCLIP_LICENSE",
+        "PYUPGRADE_LICENSE",
+        "SAS7BDAT_LICENSE",
+        "STATSBASE_JL_LICENSE",
+        "ULTRAJSON_LICENSE",
+        "XSIMD_LICENSE",
+        "LICENSE-APACHE",
+        "LICENSE-BOOST",
+        "LICENSE-MIT"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pillow",
+      "version": "13.0.0",
+      "license": "MIT-CMU",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pydantic",
+      "version": "2.14.3",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pydantic-core",
+      "version": "2.50.4",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pygments",
+      "version": "2.21.0",
+      "license": "BSD-2-Clause",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pynndescent",
+      "version": "0.7.0",
+      "license": "BSD-2-Clause",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pyparsing",
+      "version": "3.3.3",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "python-dateutil",
+      "version": "4.0.0",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "pyyaml",
+      "version": "6.0.3",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "regex",
+      "version": "2026.11.19",
+      "license": "Apache-2.0 AND CNRI-Python",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "requests",
+      "version": "2.34.2",
+      "license": "Apache-2.0",
+      "files": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "rich",
+      "version": "15.0.0",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "safetensors",
+      "version": "0.8.0",
+      "license": "Apache Software License",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "scikit-learn",
+      "version": "1.9.1",
+      "license": "BSD-3-Clause",
+      "files": [
+        "COPYING"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "scipy",
+      "version": "1.18.1",
+      "license": "BSD License",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "setuptools",
+      "version": "78.1.0",
+      "license": "MIT License",
+      "files": [
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.APACHE",
+        "LICENSE.BSD",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "shellingham",
+      "version": "1.5.4",
+      "license": "ISC License",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "sympy",
+      "version": "1.14.0",
+      "license": "BSD",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "threadpoolctl",
+      "version": "3.8.0",
+      "license": "BSD-3-Clause",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "tokenizers",
+      "version": "0.23.3",
+      "license": "Apache Software License",
+      "files": [],
+      "flagged": false
+    },
+    {
+      "package": "torch",
+      "version": "2.15.0+cpu",
+      "license": "Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND ISC AND MIT AND Zlib",
+      "files": [
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.md",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE-MIT.txt",
+        "LICENSE.txt",
+        "LICENSE.Apache-2.0",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE.md",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.uvw",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.BSD",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE.MIT",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.md",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE.txt",
+        "LICENSE",
+        "LICENSE",
+        "LICENSE-extra"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "torchvision",
+      "version": "0.29.2+cpu",
+      "license": "BSD",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "tqdm",
+      "version": "4.70.1",
+      "license": "MPL-2.0 AND MIT",
+      "files": [
+        "LICENCE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "transformers",
+      "version": "5.23.0",
+      "license": "Apache 2.0 License",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "truststore",
+      "version": "0.10.5",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "typer",
+      "version": "0.29.2",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "typing-extensions",
+      "version": "4.16.0",
+      "license": "PSF-2.0",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "typing-inspection",
+      "version": "0.4.5",
+      "license": "MIT",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "tzdata",
+      "version": "2026.6",
+      "license": "Apache-2.0",
+      "files": [
+        "LICENSE",
+        "LICENSE_APACHE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "umap-learn",
+      "version": "0.6.0",
+      "license": "BSD",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "urllib3",
+      "version": "2.8.0",
+      "license": "MIT",
+      "files": [
+        "LICENSE.txt"
+      ],
+      "flagged": false
+    }
+  ]
+}

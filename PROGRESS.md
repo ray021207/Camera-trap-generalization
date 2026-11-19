@@ -13,6 +13,9 @@
 ## Next
 Phase 5: 09 and 10 have been run for --feature full; notes pending commit. Then Phase 6 (06 --mode crop, 07/08/09 --feature crop, 11, 12).
 
+## Licences (done)
+LICENSES_AND_ATTRIBUTION.md + licenses/ + THIRD_PARTY_LICENSES.md written. Open points: MegaDetector v5a WEIGHT licence is unclear (we only use LILA's precomputed boxes; results JSON has no stated licence, not redistributed); the repo's own code licence is not chosen yet (owner's decision).
+
 ## Blockers / decisions
 - Pushing: remote `origin` = https://github.com/ray021207/Camera-trap-generalization.git is configured locally and NOT pushed (brief says ask before pushing).
 - MegaDetector is not run locally: LILA's precomputed MDv5a detections are used (CPU inference on ~29k full-size images is impractical). State this wherever Phase 6 is described.

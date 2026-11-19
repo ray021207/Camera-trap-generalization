@@ -7,3 +7,4 @@ __pycache__/
 .ipynb_checkpoints/
 NOTES.md
 licenses/third_party/
+paper/

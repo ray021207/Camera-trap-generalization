@@ -69,7 +69,7 @@ More: `figures/p1_location_grid.png` (backgrounds differ), `p3_preprocessing.png
 
 - One backbone (DINOv2-small), one classifier (linear probe), one seed. The conclusions are about this setup.
 - **MegaDetector was not run by me.** I used the detections LILA published for this dataset (MDv5a), joined by file name; I did not verify them against a local run, and I did not check whether MegaDetector's own training data overlapped these cameras.
-- Ten unseen cameras is a small sample of "new cameras"; the gap varies a lot between them.
+- The headline unseen-camera test covers nine cameras (CCT20 `trans_test`; the tenth unseen camera is reported separately), a small sample of "new cameras"; the gap varies a lot between them.
 - A 50% sample of bursts was used (storage and CPU time), and the benchmark has far fewer empty frames than the full dataset.
 - The seen-camera test still leaks lighting and scene context (test bursts are usually close in time to training bursts at the same camera), so the true seen/unseen gap is somewhat smaller than the (b)-(c) difference shows.
 - Failure categories are rule-based heuristics, checked visually but not hand-labelled.

@@ -7,11 +7,11 @@
 - [x] Phase 3 — preprocessing (results/phase3.json, figures/p3_*.png)
 - [x] Phase 4 — embeddings, linear probe, UMAP (results/phase4_*.json)
 - [x] Phase 5 — evaluation + failure gallery (results/phase5_*.json)
-- [ ] Phase 6 — MegaDetector crops: 06 --mode crop, 07/08/09 --feature crop, 11_mitigation_compare
+- [x] Phase 6 — MegaDetector crops + mask control (results/phase6_*.json)
 - [ ] Phase 7 — write-up (12_make_tables.py fills the README table)
 
 ## Next
-Phase 5: 09 and 10 have been run for --feature full; notes pending commit. Then Phase 6 (06 --mode crop, 07/08/09 --feature crop, 11, 12).
+Phase 7: run scripts/12_make_tables.py, finish README (figures, what I learned, limitations), NOTES big-picture + quiz + interview Qs, final checks (git log attribution, storage).
 
 ## Licences (done)
 LICENSES_AND_ATTRIBUTION.md + licenses/ + THIRD_PARTY_LICENSES.md written. Open points: MegaDetector v5a WEIGHT licence is unclear (we only use LILA's precomputed boxes; results JSON has no stated licence, not redistributed); the repo's own code licence is not chosen yet (owner's decision).

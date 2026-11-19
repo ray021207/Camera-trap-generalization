@@ -2,6 +2,7 @@
 
     python scripts/06_extract_embeddings.py --mode full     # whole frame, 224x308
     python scripts/06_extract_embeddings.py --mode crop     # MegaDetector crop, padded, 224x224
+    python scripts/06_extract_embeddings.py --mode mask     # control: grey out outside the box, keep 224x308
 
 Embedding = [CLS token (384) , mean of all patch tokens (384)] from the last layer, the same
 recipe the DINOv2 paper uses for linear probing. Output rows follow data/meta/splits.csv order.
@@ -43,6 +44,11 @@ class Frames(Dataset):
         if self.mode == "full":
             return P.to_tensor_normalized(P.resize_full(img)), 1
         dets = [d for d in self.md.get(fn, []) if d["conf"] >= MD_CONF]
+        if self.mode == "mask":                    # control: grey out everything outside the box, keep full-frame resolution
+            if dets:
+                best = max(dets, key=lambda d: d["conf"])
+                return P.to_tensor_normalized(P.resize_full(P.mask_outside_box(img, best["bbox"]))), 1
+            return P.to_tensor_normalized(P.resize_full(img)), 0
         if dets:                                   # highest-confidence box of any type (animal / vehicle / person)
             best = max(dets, key=lambda d: d["conf"])
             return P.to_tensor_normalized(P.resize_crop(P.crop_box(img, best["bbox"]))), 1
@@ -52,7 +58,7 @@ class Frames(Dataset):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["full", "crop"], required=True)
+    ap.add_argument("--mode", choices=["full", "crop", "mask"], required=True)
     ap.add_argument("--limit", type=int, default=0, help="only first N images (speed test)")
     a = ap.parse_args()
     set_seed(SEED)
@@ -67,7 +73,7 @@ def main():
     if a.limit:
         df = df.head(a.limit)
     md = {}
-    if a.mode == "crop":
+    if a.mode in ("crop", "mask"):
         mdj = json.load(open(next((DATA / "md").glob("*.json"))))
         md = {r["file"]: r["detections"] for r in mdj["images"]}
     dl = DataLoader(Frames(df, a.mode, md), batch_size=32, num_workers=4, shuffle=False)

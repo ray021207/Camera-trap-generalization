@@ -111,9 +111,9 @@ def main():
             h = H[f"{s}_{f}"]; v = h[key]; lo, hi = h[key + "_ci95"]
             a.bar(k + (0.4 if k >= 2 else 0), v, yerr=[[v - lo], [hi - v]], color=SEEN_C if s == "seen" else UNSEEN_C, capsize=4, alpha=1 if f == "crop" else 0.55)
             a.text(k + (0.4 if k >= 2 else 0), v + 0.03, f"{v:.3f}", ha="center", fontsize=8)
-        a.set_xticks([0.5, 2.9]); a.set_xticklabels(["full frame\n(baseline)", "MegaDetector crop\n(mitigation)"]); a.set_ylim(0, 1.05); a.set_title(lab)
+        a.set_xticks([0.5, 2.9]); a.set_xticklabels(["full frame\n(baseline)", "MegaDetector crop\n(mitigation)"]); a.set_ylim(0, 1.2); a.set_title(lab)
     from matplotlib.patches import Patch
-    ax[1].legend(handles=[Patch(color=SEEN_C, label="seen cameras"), Patch(color=UNSEEN_C, label="unseen cameras")], frameon=False, loc="lower right")
+    ax[1].legend(handles=[Patch(color=SEEN_C, label="seen cameras"), Patch(color=UNSEEN_C, label="unseen cameras")], frameon=False, loc="upper center", ncol=2)
     fig.suptitle("Seen vs unseen cameras, before and after cropping (95% CI)"); fig.tight_layout()
     fig.savefig(FIGURES / "p6_gap_before_after.png", dpi=150); plt.close(fig)
 

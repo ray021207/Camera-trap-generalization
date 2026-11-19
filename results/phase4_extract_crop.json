@@ -1,0 +1,9 @@
+{
+  "model": "facebook/dinov2-small",
+  "mode": "crop",
+  "n_images": 28943,
+  "dim": 768,
+  "seconds": 1123,
+  "images_per_second": 25.8,
+  "md_conf_threshold": 0.2
+}

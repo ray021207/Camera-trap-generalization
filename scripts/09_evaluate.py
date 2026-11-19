@@ -38,7 +38,7 @@ def setups(df):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--feature", choices=["full", "crop"], required=True)
+    ap.add_argument("--feature", choices=["full", "crop", "mask"], required=True)
     feat = ap.parse_args().feature
     set_seed(SEED)
     rng = np.random.default_rng(SEED)

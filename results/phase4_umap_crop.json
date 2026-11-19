@@ -1,0 +1,31 @@
+{
+  "feature": "crop",
+  "n_points": 5000,
+  "points_per_location_max": 250,
+  "knn10_same_species_share": 0.696,
+  "knn10_same_species_chance": 0.11039864,
+  "knn10_same_location_share": 0.54636,
+  "knn10_same_location_chance": 0.05000000000000002,
+  "knn10_same_location_share_animal_frames_only": 0.5187065972222222,
+  "knn10_same_location_chance_animal_frames_only": 0.050200850875289346,
+  "knn10_same_location_given_same_species": 0.5983620689655172,
+  "camera_probe_all_frames_10_seen_cameras": {
+    "accuracy": 0.9309723889555822,
+    "majority_baseline": 0.29711884753901563,
+    "n_test": 3332,
+    "n_train": 11511
+  },
+  "camera_probe_empty_frames_only": {
+    "accuracy": 0.9113924050632911,
+    "majority_baseline": 0.21940928270042195,
+    "n_test": 237,
+    "n_train": 731
+  },
+  "camera_probe_animal_frames_only": {
+    "accuracy": 0.9298869143780291,
+    "majority_baseline": 0.3130856219709208,
+    "n_test": 3095,
+    "n_train": 10780
+  },
+  "chance_uniform_10_way": 0.1
+}

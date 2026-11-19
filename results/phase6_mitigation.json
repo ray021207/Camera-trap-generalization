@@ -1,0 +1,483 @@
+{
+  "n_boot": 2000,
+  "paired": true,
+  "headline": {
+    "seen_full": {
+      "accuracy": 0.7656062424969988,
+      "accuracy_ci95": [
+        0.7441720999965133,
+        0.7867779824161841
+      ],
+      "macro_f1": 0.7493249728812129,
+      "macro_f1_ci95": [
+        0.7204227158390647,
+        0.7729732581249902
+      ]
+    },
+    "seen_crop": {
+      "accuracy": 0.8451380552220888,
+      "accuracy_ci95": [
+        0.8282351174704116,
+        0.8616683599055467
+      ],
+      "macro_f1": 0.8285638792070972,
+      "macro_f1_ci95": [
+        0.8067537783918353,
+        0.8477443554081633
+      ]
+    },
+    "unseen_full": {
+      "accuracy": 0.509125344352617,
+      "accuracy_ci95": [
+        0.49559017975796815,
+        0.5226574764617062
+      ],
+      "macro_f1": 0.4086259450302719,
+      "macro_f1_ci95": [
+        0.39532050450725936,
+        0.421461660579693
+      ]
+    },
+    "unseen_crop": {
+      "accuracy": 0.7035123966942148,
+      "accuracy_ci95": [
+        0.6916009068204696,
+        0.7154553460595735
+      ],
+      "macro_f1": 0.5992877361112435,
+      "macro_f1_ci95": [
+        0.5835358005943911,
+        0.6127528757272821
+      ]
+    }
+  },
+  "deltas": {
+    "accuracy_gap_full": {
+      "value": 0.2564808981443818,
+      "ci95": [
+        0.23105468395391238,
+        0.2811960132825333
+      ]
+    },
+    "accuracy_gap_crop": {
+      "value": 0.141625658527874,
+      "ci95": [
+        0.12047783202643701,
+        0.16260331692243968
+      ]
+    },
+    "accuracy_gap_change_crop_minus_full": {
+      "value": -0.11485523961650779,
+      "ci95": [
+        -0.13814088121586984,
+        -0.09107523330781096
+      ]
+    },
+    "accuracy_seen_change_crop_minus_full": {
+      "value": 0.07953181272509002,
+      "ci95": [
+        0.06037347088113705,
+        0.09964170372787245
+      ]
+    },
+    "accuracy_unseen_change_crop_minus_full": {
+      "value": 0.1943870523415978,
+      "ci95": [
+        0.18068741005406141,
+        0.2074000565004747
+      ]
+    },
+    "macro_f1_gap_full": {
+      "value": 0.340699027850941,
+      "ci95": [
+        0.30894889313818974,
+        0.3681400874272506
+      ]
+    },
+    "macro_f1_gap_crop": {
+      "value": 0.22927614309585365,
+      "ci95": [
+        0.20352174660090339,
+        0.25430770064483377
+      ]
+    },
+    "macro_f1_gap_change_crop_minus_full": {
+      "value": -0.11142288475508738,
+      "ci95": [
+        -0.13814866500593062,
+        -0.0808360521078754
+      ]
+    },
+    "macro_f1_seen_change_crop_minus_full": {
+      "value": 0.07923890632588426,
+      "ci95": [
+        0.056351829256975315,
+        0.10564706770437368
+      ]
+    },
+    "macro_f1_unseen_change_crop_minus_full": {
+      "value": 0.19066179108097164,
+      "ci95": [
+        0.17546479335575862,
+        0.20518732178220606
+      ]
+    }
+  },
+  "per_class_recall_change": {
+    "seen": {
+      "bird": {
+        "support": 129,
+        "recall_full": 0.7906976744186046,
+        "recall_crop": 0.8682170542635659,
+        "change": 0.07751937984496127,
+        "change_ci95": [
+          0.0,
+          0.16544486215538828
+        ]
+      },
+      "bobcat": {
+        "support": 197,
+        "recall_full": 0.7868020304568528,
+        "recall_crop": 0.7817258883248731,
+        "change": -0.005076142131979711,
+        "change_ci95": [
+          -0.08333333333333337,
+          0.07529886148007567
+        ]
+      },
+      "car": {
+        "support": 129,
+        "recall_full": 1.0,
+        "recall_crop": 1.0,
+        "change": 0.0,
+        "change_ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "cat": {
+        "support": 363,
+        "recall_full": 0.7851239669421488,
+        "recall_crop": 0.8457300275482094,
+        "change": 0.06060606060606055,
+        "change_ci95": [
+          0.005119904076738605,
+          0.11485357779475415
+        ]
+      },
+      "coyote": {
+        "support": 339,
+        "recall_full": 0.8053097345132744,
+        "recall_crop": 0.8200589970501475,
+        "change": 0.014749262536873142,
+        "change_ci95": [
+          -0.03374492685228884,
+          0.06349486791182903
+        ]
+      },
+      "dog": {
+        "support": 203,
+        "recall_full": 0.8374384236453202,
+        "recall_crop": 0.896551724137931,
+        "change": 0.059113300492610876,
+        "change_ci95": [
+          -0.004573414017821451,
+          0.13001086956521735
+        ]
+      },
+      "empty": {
+        "support": 237,
+        "recall_full": 0.41350210970464135,
+        "recall_crop": 0.5864978902953587,
+        "change": 0.17299578059071735,
+        "change_ci95": [
+          0.062008326155613046,
+          0.2871422758714227
+        ]
+      },
+      "opossum": {
+        "support": 699,
+        "recall_full": 0.8469241773962805,
+        "recall_crop": 0.9055793991416309,
+        "change": 0.05865522174535043,
+        "change_ci95": [
+          0.020926756352765308,
+          0.09728880979796911
+        ]
+      },
+      "rabbit": {
+        "support": 489,
+        "recall_full": 0.6666666666666666,
+        "recall_crop": 0.8384458077709611,
+        "change": 0.17177914110429449,
+        "change_ci95": [
+          0.1129544228694714,
+          0.2340094207553074
+        ]
+      },
+      "raccoon": {
+        "support": 243,
+        "recall_full": 0.7119341563786008,
+        "recall_crop": 0.823045267489712,
+        "change": 0.11111111111111116,
+        "change_ci95": [
+          0.041638513513513525,
+          0.18182699083861875
+        ]
+      },
+      "rodent": {
+        "support": 68,
+        "recall_full": 0.9117647058823529,
+        "recall_crop": 1.0,
+        "change": 0.08823529411764708,
+        "change_ci95": [
+          0.0,
+          0.20833333333333337
+        ]
+      },
+      "skunk": {
+        "support": 39,
+        "recall_full": 0.9230769230769231,
+        "recall_crop": 0.9743589743589743,
+        "change": 0.05128205128205121,
+        "change_ci95": [
+          -0.06976744186046513,
+          0.24
+        ]
+      },
+      "squirrel": {
+        "support": 197,
+        "recall_full": 0.7614213197969543,
+        "recall_crop": 0.8426395939086294,
+        "change": 0.08121827411167515,
+        "change_ci95": [
+          -0.02778100775193799,
+          0.18974999999999995
+        ]
+      }
+    },
+    "unseen": {
+      "bird": {
+        "support": 112,
+        "recall_full": 0.3392857142857143,
+        "recall_crop": 0.5,
+        "change": 0.1607142857142857,
+        "change_ci95": [
+          0.0,
+          0.3120124999999999
+        ]
+      },
+      "bobcat": {
+        "support": 1161,
+        "recall_full": 0.2859603789836348,
+        "recall_crop": 0.6442721791559001,
+        "change": 0.35831180017226527,
+        "change_ci95": [
+          0.31850721922565367,
+          0.3955505509231685
+        ]
+      },
+      "car": {
+        "support": 555,
+        "recall_full": 0.9837837837837838,
+        "recall_crop": 0.9855855855855856,
+        "change": 0.0018018018018017834,
+        "change_ci95": [
+          -0.010889292196007209,
+          0.014389137338777535
+        ]
+      },
+      "cat": {
+        "support": 673,
+        "recall_full": 0.2288261515601783,
+        "recall_crop": 0.5482912332838039,
+        "change": 0.31946508172362564,
+        "change_ci95": [
+          0.268487441785467,
+          0.374795483449627
+        ]
+      },
+      "coyote": {
+        "support": 1157,
+        "recall_full": 0.44857389801210024,
+        "recall_crop": 0.6257562662057045,
+        "change": 0.17718236819360422,
+        "change_ci95": [
+          0.14382346771825313,
+          0.20819907391094974
+        ]
+      },
+      "dog": {
+        "support": 420,
+        "recall_full": 0.5523809523809524,
+        "recall_crop": 0.7738095238095238,
+        "change": 0.22142857142857142,
+        "change_ci95": [
+          0.16665800415800414,
+          0.2824625153212852
+        ]
+      },
+      "empty": {
+        "support": 900,
+        "recall_full": 0.30444444444444446,
+        "recall_crop": 0.5922222222222222,
+        "change": 0.28777777777777774,
+        "change_ci95": [
+          0.23026677567246961,
+          0.34682491927900194
+        ]
+      },
+      "opossum": {
+        "support": 2772,
+        "recall_full": 0.5375180375180375,
+        "recall_crop": 0.7904040404040404,
+        "change": 0.25288600288600294,
+        "change_ci95": [
+          0.22271894301932857,
+          0.28311096385357615
+        ]
+      },
+      "rabbit": {
+        "support": 390,
+        "recall_full": 0.15128205128205127,
+        "recall_crop": 0.5743589743589743,
+        "change": 0.423076923076923,
+        "change_ci95": [
+          0.35464731758336404,
+          0.4946264855687606
+        ]
+      },
+      "raccoon": {
+        "support": 2705,
+        "recall_full": 0.6447319778188539,
+        "recall_crop": 0.6754158964879852,
+        "change": 0.030683918669131227,
+        "change_ci95": [
+          0.0018294245584455555,
+          0.059550114292355905
+        ]
+      },
+      "rodent": {
+        "support": 24,
+        "recall_full": 0.25,
+        "recall_crop": 0.041666666666666664,
+        "change": -0.20833333333333334,
+        "change_ci95": [
+          -0.5911363636363632,
+          0.06451612903225806
+        ]
+      },
+      "skunk": {
+        "support": 178,
+        "recall_full": 0.3539325842696629,
+        "recall_crop": 0.6741573033707865,
+        "change": 0.3202247191011236,
+        "change_ci95": [
+          0.21830424033563087,
+          0.40964064591700133
+        ]
+      },
+      "squirrel": {
+        "support": 569,
+        "recall_full": 0.8031634446397188,
+        "recall_crop": 0.8910369068541301,
+        "change": 0.08787346221441128,
+        "change_ci95": [
+          0.033642919580419595,
+          0.13818560606060604
+        ]
+      }
+    }
+  },
+  "md_seen_share_images_with_detection": 0.8487394957983193,
+  "md_seen_share_animal_frames_with_detection": 0.8920840064620356,
+  "md_seen_share_empty_frames_with_detection": 0.28270042194092826,
+  "md_unseen_share_images_with_detection": 0.8244662534435262,
+  "md_unseen_share_animal_frames_with_detection": 0.877846211272863,
+  "md_unseen_share_empty_frames_with_detection": 0.18888888888888888,
+  "unseen_errors": {
+    "full": 5702,
+    "crop": 3444,
+    "fixed_by_crop": 3023,
+    "broken_by_crop": 765,
+    "wrong_both": 2679
+  },
+  "unseen_errors_by_baseline_category": {
+    "night / IR frame": {
+      "baseline_errors": 3436,
+      "still_wrong_with_crop": 1553
+    },
+    "empty frame confusion": {
+      "baseline_errors": 1285,
+      "still_wrong_with_crop": 731
+    },
+    "animal tiny, partial or undetected": {
+      "baseline_errors": 712,
+      "still_wrong_with_crop": 347
+    },
+    "other / unexplained": {
+      "baseline_errors": 176,
+      "still_wrong_with_crop": 30
+    },
+    "look-alike species": {
+      "baseline_errors": 88,
+      "still_wrong_with_crop": 13
+    },
+    "vehicle (car) confusion": {
+      "baseline_errors": 3,
+      "still_wrong_with_crop": 3
+    },
+    "motion blur / soft": {
+      "baseline_errors": 2,
+      "still_wrong_with_crop": 2
+    }
+  },
+  "unseen_errors_by_md_detection": {
+    "md_box_found": {
+      "n": 9577,
+      "err_full": 0.43374752010024015,
+      "err_crop": 0.2078939124986948
+    },
+    "no_md_box": {
+      "n": 2039,
+      "err_full": 0.7591956841589014,
+      "err_crop": 0.7126042177538009
+    }
+  },
+  "camera_decodability_full": {
+    "knn10_same_location_share": 0.94216,
+    "knn10_same_location_chance": 0.05000000000000002,
+    "knn10_same_location_given_same_species": 0.9409368635437881,
+    "camera_probe_empty_frames_only": {
+      "accuracy": 0.9704641350210971,
+      "majority_baseline": 0.21940928270042195,
+      "n_test": 237,
+      "n_train": 731
+    },
+    "camera_probe_animal_frames_only": {
+      "accuracy": 0.9983844911147012,
+      "majority_baseline": 0.3130856219709208,
+      "n_test": 3095,
+      "n_train": 10780
+    },
+    "knn10_same_species_share": 0.59902
+  },
+  "camera_decodability_crop": {
+    "knn10_same_location_share": 0.54636,
+    "knn10_same_location_chance": 0.05000000000000002,
+    "knn10_same_location_given_same_species": 0.5983620689655172,
+    "camera_probe_empty_frames_only": {
+      "accuracy": 0.9113924050632911,
+      "majority_baseline": 0.21940928270042195,
+      "n_test": 237,
+      "n_train": 731
+    },
+    "camera_probe_animal_frames_only": {
+      "accuracy": 0.9298869143780291,
+      "majority_baseline": 0.3130856219709208,
+      "n_test": 3095,
+      "n_train": 10780
+    },
+    "knn10_same_species_share": 0.696
+  }
+}

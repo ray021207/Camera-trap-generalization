@@ -41,7 +41,7 @@ def fit(Xtr, ytr, Xva, yva):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--feature", choices=["full", "crop"], required=True)
+    ap.add_argument("--feature", choices=["full", "crop", "mask"], required=True)
     feat = ap.parse_args().feature
     set_seed(SEED)
     df = pd.read_csv(DATA / "meta" / "splits.csv")

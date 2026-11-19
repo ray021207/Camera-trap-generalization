@@ -1,0 +1,9 @@
+{
+  "model": "facebook/dinov2-small",
+  "mode": "mask",
+  "n_images": 28943,
+  "dim": 768,
+  "seconds": 1533,
+  "images_per_second": 18.9,
+  "md_conf_threshold": null
+}

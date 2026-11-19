@@ -34,5 +34,15 @@ python scripts/07_train_probe.py --feature full       # phase 4: linear probes f
 python scripts/08_umap.py --feature full              # phase 4: UMAP + camera-decodability numbers
 python scripts/09_evaluate.py --feature full          # phase 5: metrics, bootstrap CIs, confusion matrices
 python scripts/10_failure_gallery.py                  # phase 5: failure gallery + error categories
+python scripts/06_extract_embeddings.py --mode crop   # phase 6: embeddings of MegaDetector crops (~19 min; needs data/md from LILA)
+python scripts/07_train_probe.py --feature crop
+python scripts/08_umap.py --feature crop
+python scripts/09_evaluate.py --feature crop
+python scripts/11_mitigation_compare.py              # phase 6: paired comparison crop vs full
+python scripts/06_extract_embeddings.py --mode mask   # phase 6 control: grey out background, keep resolution (~26 min)
+python scripts/07_train_probe.py --feature mask
+python scripts/08_umap.py --feature mask
+python scripts/09_evaluate.py --feature mask
+python scripts/11b_control_mask.py                   # phase 6 control: background removal vs magnification
 python scripts/13_collect_licenses.py            # licences of all pinned packages -> THIRD_PARTY_LICENSES.md, licenses/third_party/
 ```

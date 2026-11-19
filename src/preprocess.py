@@ -67,6 +67,18 @@ def crop_box(img: Image.Image, bbox_norm, margin: float = CROP_MARGIN) -> Image.
     return img.crop(box)
 
 
+def mask_outside_box(img: Image.Image, bbox_norm, margin: float = CROP_MARGIN, fill=(124, 116, 104)) -> Image.Image:
+    """Control experiment: keep the frame size (so the animal keeps its original, small pixel size) but paint
+    everything outside the detector box with neutral grey. Removes background WITHOUT magnifying the animal."""
+    box = crop_box(img, bbox_norm, margin)
+    W, H = img.size
+    x, y, w, h = bbox_norm
+    x0, y0 = max(0, int((x - margin * w) * W)), max(0, int((y - margin * h) * H))
+    canvas = Image.new("RGB", img.size, fill)
+    canvas.paste(box, (x0, y0))
+    return canvas
+
+
 def resize_crop(img: Image.Image) -> Image.Image:
     return letterbox_pad_square(img, CROP_SIZE)
 

@@ -1,6 +1,6 @@
 """Phase 1d: how does the CCT20 benchmark differ from the full Caltech Camera Traps dataset?
 Downloads the 9 MB full image-level annotation file (no images) and counts empties, so the
-README/NOTES can say how unrepresentative the benchmark's class balance is. Writes results/phase1_full_cct_context.json"""
+the README can say how unrepresentative the benchmark's class balance is. Writes results/phase1_full_cct_context.json"""
 import io
 import json
 import sys

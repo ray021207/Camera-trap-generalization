@@ -2,8 +2,8 @@
 
     python scripts/14_final_checks.py
 
-Checks: every expected results file exists; folder size vs the 6 GB budget; NOTES.md has all seven
-sub-headings for every phase; README table is filled; .gitignore entries; and that neither the tracked
+Checks: every expected results file exists; folder size vs the 6 GB budget; the private study guide (if present locally)
+has all sub-headings for every phase; README table is filled; .gitignore entries; and that neither the tracked
 files nor the git history contain any AI-attribution strings.
 """
 import os
@@ -48,15 +48,14 @@ def main():
     out["venv_gb"] = round(sum(f.stat().st_size for f in (ROOT / ".venv").rglob("*") if f.is_file()) / 1e9, 3)
     out["budget_gb"] = 6.0
     out["under_budget"] = out["folder_gb_excluding_dot_git"] < 6.0
-    notes = (ROOT / "NOTES.md").read_text(encoding="utf-8")
-    sections = re.split(r"\n## ", notes)
-    phases = {s.split("\n")[0]: s for s in sections if s.startswith("Phase ")}
-    out["notes_phases_found"] = sorted(phases)
-    out["notes_missing_subheadings"] = {p: [h for h in SUBHEADS if f"### {h}" not in body] for p, body in phases.items()}
-    out["notes_missing_subheadings"] = {p: m for p, m in out["notes_missing_subheadings"].items() if m}
-    out["notes_has_big_picture"] = "## Big picture" in notes
-    out["notes_has_quiz_with_details_block"] = "<details>" in notes and "Self-quiz" in notes
-    out["notes_has_interview_questions"] = "Interview questions" in notes
+    notes_path = ROOT / "NOTES.md"      # private study guide: kept out of git; checked only when present
+    if notes_path.exists():
+        notes = notes_path.read_text(encoding="utf-8")
+        phases = {sec.split("
+")[0]: sec for sec in re.split(r"
+## ", notes) if sec.startswith("Phase ")}
+        missing = {p: [h for h in SUBHEADS if f"### {h}" not in body] for p, body in phases.items()}
+        out["private_notes_all_phases_have_all_subheadings"] = not any(missing.values()) and len(phases) == 8
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     m = re.search(r"RESULTS_TABLE:START -->(.*?)<!-- RESULTS_TABLE:END", readme, re.S)
     out["readme_results_table_filled"] = bool(m and "|" in m.group(1))
@@ -76,7 +75,6 @@ def main():
     out["git_log_ai_attribution_hits"] = len(BAD.findall(log))
     out["n_commits"] = len(git("log", "--format=%H").split())
     out["commit_authors"] = sorted(set(git("log", "--format=%an <%ae>").strip().splitlines()))
-    out["remote_pushed"] = False
     save_json(out, "phase7_final_checks")
     print({k: v for k, v in out.items()})
 

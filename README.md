@@ -1,6 +1,6 @@
 # Do camera-trap species classifiers survive a new camera?
 
-Camera traps are motion-triggered cameras that conservation teams leave in the field for months, producing far more images than people can label. A species classifier trained on the cameras you have labelled is only useful if it also works on the cameras you have not. This project measures how badly a strong, general-purpose classifier (frozen DINOv2-small features + a linear classifier) degrades at camera locations it has never seen, on the Caltech Camera Traps benchmark (CCT20) from LILA BC; shows where the gap comes from (the camera, and the burst structure of camera-trap data, quietly leak into the score); and tests one fix: cropping the animal out with MegaDetector detections before classifying. Everything runs on a CPU laptop within a 6 GB budget. `NOTES.md` is a long study guide that explains every step and result.
+Camera traps are motion-triggered cameras that conservation teams leave in the field for months, producing far more images than people can label. A species classifier trained on the cameras you have labelled is only useful if it also works on the cameras you have not. This project measures how badly a strong, general-purpose classifier (frozen DINOv2-small features + a linear classifier) degrades at camera locations it has never seen, on the Caltech Camera Traps benchmark (CCT20) from LILA BC; shows where the gap comes from (the camera, and the burst structure of camera-trap data, quietly leak into the score); and tests one fix: cropping the animal out with MegaDetector detections before classifying. Everything runs on a CPU laptop within a 6 GB budget.
 
 ## Results
 
@@ -34,7 +34,7 @@ Control: is it the background, or the zoom? (paired 95% CI; same frozen backbone
 Test sizes: (a) 3298 images, (b) 3332 images, (c) 11616 images in 4488 bursts. CIs: cluster (sequence) bootstrap, percentile 95%, 2000 resamples.
 <!-- RESULTS_TABLE:END -->
 
-Every number in this README and in `NOTES.md` is read from a file in `results/` written by a script.
+Every number in this README is read from a file in `results/` written by a script.
 
 ## Key figures
 
@@ -125,6 +125,6 @@ python scripts/07_train_probe.py --feature mask
 python scripts/08_umap.py --feature mask
 python scripts/09_evaluate.py --feature mask
 python scripts/11b_control_mask.py                    # phase 6 control: background removal vs magnification
-python scripts/13_collect_licenses.py                 # licences of all pinned packages -> THIRD_PARTY_LICENSES.md, licenses/third_party/
+python scripts/13_collect_licenses.py                 # licences of all pinned packages -> THIRD_PARTY_LICENSES.md (per-package licence files go to licenses/third_party/, not committed)
 python scripts/12_make_tables.py                      # phase 7: fills the results table above from results/*.json
 ```

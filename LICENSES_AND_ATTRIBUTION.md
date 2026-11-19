@@ -39,7 +39,7 @@ The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech
 We rely on the Apache-2.0 licence stated on that model card. Weights are used frozen and unmodified.
 
 ## 4. Python packages
-64 pinned packages (`requirements.txt`). `scripts/13_collect_licenses.py` read each package's declared licence and copied the licence files it ships into `licenses/third_party/`. Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
+64 pinned packages (`requirements.txt`). `scripts/13_collect_licenses.py` read each package's declared licence and copied the licence files it ships into `licenses/third_party/` (regenerate locally; that folder is not committed). Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
 - All are permissive (MIT, BSD, Apache-2.0, PSF, ISC, MIT-CMU/HPND-style, Zlib and combinations of these). **No GPL, AGPL, LGPL or non-commercial package** was found (the script flags those; none flagged).
 - Two packages are under MPL-2.0 (file-level copyleft): `certifi` and `tqdm` (dual MPL-2.0 AND MIT). We use them unmodified as installed dependencies and do not redistribute them.
 - `tokenizers` (Apache-2.0) ships no licence file in its metadata; the Apache-2.0 text in `licenses/` applies.

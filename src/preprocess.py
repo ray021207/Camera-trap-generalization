@@ -9,7 +9,7 @@ Pipeline used for the MegaDetector mitigation (animal crop):
              -> resize to 224 x 224 -> same normalisation
 
 Augmentations (train-time only, defined here so they can be inspected; the frozen-backbone
-baseline embeds clean images, see NOTES.md Phase 3):
+baseline embeds clean images, so no augmentation is applied there):
     horizontal flip, random-resized-crop, colour jitter, random greyscale.
 """
 import numpy as np

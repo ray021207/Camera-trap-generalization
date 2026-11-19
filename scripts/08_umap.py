@@ -87,7 +87,7 @@ def main():
     # same-species neighbours: of those neighbours that share the species, how many share the camera?
     nn = NearestNeighbors(n_neighbors=11, metric="cosine").fit(Z)
     idx = nn.kneighbors(Z, return_distance=False)[:, 1:]
-    lab, loc = S.label.values, S.location.values
+    lab, loc = S.label.to_numpy(dtype=object), S.location.to_numpy()
     sp = lab[idx] == lab[:, None]
     out["knn10_same_location_given_same_species"] = float(((loc[idx] == loc[:, None]) & sp).sum() / sp.sum())
 

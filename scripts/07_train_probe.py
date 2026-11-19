@@ -23,7 +23,7 @@ from sklearn.preprocessing import StandardScaler
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src.common import DATA, SEED, save_json, set_seed
 
-C_GRID = [0.0003, 0.001, 0.003, 0.01, 0.03, 0.1, 1.0]
+C_GRID = [0.0003, 0.001, 0.003, 0.01, 0.03, 0.1, 1.0, 10.0, 100.0]
 
 
 def fit(Xtr, ytr, Xva, yva):
@@ -82,7 +82,7 @@ def main():
     for k, (m, col) in evalsets.items():
         m = m.values
         out["quicklook"][k] = dict(n=int(m.sum()), accuracy=float(accuracy_score(df.label[m], pred[col][m])),
-                                   macro_f1=float(f1_score(df.label[m], pred[col][m], average="macro", labels=classes)))
+                                   macro_f1=float(f1_score(df.label[m], pred[col][m], average="macro", labels=sorted(df.label[m].unique()))))  # classes present in the ground truth
     pred.to_csv(DATA / f"preds_{feat}.csv", index=False)
     save_json(out, f"phase4_probe_{feat}")
     print({k: (v["n"], round(v["accuracy"], 4), round(v["macro_f1"], 4)) for k, v in out["quicklook"].items()})

@@ -5,13 +5,13 @@
 - [x] Phase 1 — data download + audit (results/phase1_*.json, figures/p1_*.png)
 - [x] Phase 2 — splits (results/phase2_splits.json)
 - [x] Phase 3 — preprocessing (results/phase3.json, figures/p3_*.png)
-- [ ] Phase 4 — embeddings (06), linear probe (07), UMAP (08): written, not run
+- [x] Phase 4 — embeddings, linear probe, UMAP (results/phase4_*.json)
 - [ ] Phase 5 — evaluation (09) + failure gallery (10): written, not run
 - [ ] Phase 6 — MegaDetector crops: 06 --mode crop, 07/08/09 --feature crop, 11_mitigation_compare
 - [ ] Phase 7 — write-up (12_make_tables.py fills the README table)
 
 ## Next
-Embeddings: 06 --mode full running (log data/extract_full.log). Then 07 --feature full, 08 --feature full, 09, 10.
+Phase 5: 09 and 10 have been run for --feature full; notes pending commit. Then Phase 6 (06 --mode crop, 07/08/09 --feature crop, 11, 12).
 
 ## Blockers / decisions
 - Pushing: remote `origin` = https://github.com/ray021207/Camera-trap-generalization.git is configured locally and NOT pushed (brief says ask before pushing).

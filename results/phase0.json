@@ -1,0 +1,13 @@
+{
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu_cores_logical": 16,
+  "torch": "2.15.0+cpu",
+  "torch_cuda_available": false,
+  "physical_gpu_detected": "NVIDIA GeForce RTX 4070 Laptop GPU, 8188 MiB",
+  "free_disk_gb_on_project_drive": 236.5,
+  "seed": 42,
+  "storage_budget_gb": 6.0,
+  "project_folder_gb_now": 1.157,
+  "decision": "A GPU is physically present but the installed torch is the CPU-only build: the CUDA build of torch plus its NVIDIA libraries needs roughly 4-5 GB, which would consume most of the 6 GB budget. Everything is therefore designed for CPU (frozen backbone + linear probe); end-to-end fine-tuning is skipped."
+}

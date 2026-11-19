@@ -1,0 +1,7 @@
+{
+  "source": "https://storage.googleapis.com/public-datasets-lila/caltechcameratraps/labels/caltech_camera_traps.json.zip",
+  "n_images_full_dataset": 243100,
+  "n_empty_images_full_dataset": 125745,
+  "share_empty_full_dataset": 0.5172562731386261,
+  "n_locations_full_dataset": 140
+}

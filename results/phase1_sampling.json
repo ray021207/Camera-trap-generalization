@@ -1,0 +1,80 @@
+{
+  "n_images_total": 57864,
+  "images_per_source": {
+    "trans_test": 23275,
+    "cis_test": 15827,
+    "train": 13553,
+    "cis_val": 3484,
+    "trans_val": 1725
+  },
+  "sequences_spanning_more_than_one_official_file": 224,
+  "n_sequences_total": 22719,
+  "label_rule": "keep class if >= 50 seen-pool images and >= 20 trans_test images",
+  "classes_kept": [
+    "bird",
+    "bobcat",
+    "car",
+    "cat",
+    "coyote",
+    "dog",
+    "empty",
+    "opossum",
+    "rabbit",
+    "raccoon",
+    "rodent",
+    "skunk",
+    "squirrel"
+  ],
+  "classes_dropped": {
+    "deer": {
+      "seen": 207,
+      "unseen_test": 0
+    },
+    "fox": {
+      "seen": 7,
+      "unseen_test": 1
+    },
+    "badger": {
+      "seen": 8,
+      "unseen_test": 14
+    }
+  },
+  "multi_label_images_dropped": 78,
+  "images_after_filter": 57549,
+  "images_dropped_by_filter": 315,
+  "sample_fraction_of_sequences": 0.5,
+  "images_sampled": 28943,
+  "sequences_sampled": 11341,
+  "sampled_images_per_source": {
+    "trans_test": 11616,
+    "cis_test": 7837,
+    "train": 6832,
+    "cis_val": 1820,
+    "trans_val": 838
+  },
+  "sampled_locations_seen": [
+    33,
+    38,
+    43,
+    51,
+    61,
+    88,
+    90,
+    108,
+    115,
+    120
+  ],
+  "sampled_locations_unseen": [
+    0,
+    7,
+    28,
+    40,
+    46,
+    78,
+    100,
+    105,
+    125,
+    130
+  ],
+  "why_sample": "Full CCT20 image archive is 6 GB (does not fit a 6 GB total budget) and CPU embedding time scales with image count; half of all sequences keeps every location and class while halving download and compute."
+}

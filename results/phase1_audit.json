@@ -1,0 +1,383 @@
+{
+  "images_per_class_full_metadata": {
+    "opossum": {
+      "seen": 7740,
+      "unseen": 5948,
+      "total": 13688
+    },
+    "raccoon": {
+      "seen": 2243,
+      "unseen": 5598,
+      "total": 7841
+    },
+    "rabbit": {
+      "seen": 4693,
+      "unseen": 852,
+      "total": 5545
+    },
+    "coyote": {
+      "seen": 3014,
+      "unseen": 2298,
+      "total": 5312
+    },
+    "bobcat": {
+      "seen": 1836,
+      "unseen": 3063,
+      "total": 4899
+    },
+    "cat": {
+      "seen": 3111,
+      "unseen": 1490,
+      "total": 4601
+    },
+    "empty": {
+      "seen": 2175,
+      "unseen": 1839,
+      "total": 4014
+    },
+    "squirrel": {
+      "seen": 2130,
+      "unseen": 1050,
+      "total": 3180
+    },
+    "dog": {
+      "seen": 1804,
+      "unseen": 984,
+      "total": 2788
+    },
+    "car": {
+      "seen": 1500,
+      "unseen": 1113,
+      "total": 2613
+    },
+    "bird": {
+      "seen": 1171,
+      "unseen": 231,
+      "total": 1402
+    },
+    "skunk": {
+      "seen": 466,
+      "unseen": 391,
+      "total": 857
+    },
+    "rodent": {
+      "seen": 751,
+      "unseen": 58,
+      "total": 809
+    }
+  },
+  "share_empty_overall": 0.06974925715477245,
+  "share_empty_seen_pool": 0.06664828093399522,
+  "share_empty_unseen_pool": 0.07381095725466587,
+  "empty_images_per_source": {
+    "train": 0,
+    "cis_val": 995,
+    "cis_test": 1180,
+    "trans_val": 61,
+    "trans_test": 1778
+  },
+  "imbalance_ratio_max_over_min_class": 16.91965389369592,
+  "largest_class": "opossum",
+  "smallest_class": "rodent",
+  "imbalance_ratio_excluding_empty": 16.91965389369592,
+  "images_per_location": {
+    "38": {
+      "pool": "seen",
+      "n": 9773
+    },
+    "46": {
+      "pool": "unseen",
+      "n": 6268
+    },
+    "100": {
+      "pool": "unseen",
+      "n": 4888
+    },
+    "43": {
+      "pool": "seen",
+      "n": 4107
+    },
+    "33": {
+      "pool": "seen",
+      "n": 3997
+    },
+    "88": {
+      "pool": "seen",
+      "n": 3100
+    },
+    "120": {
+      "pool": "seen",
+      "n": 3025
+    },
+    "115": {
+      "pool": "seen",
+      "n": 2773
+    },
+    "78": {
+      "pool": "unseen",
+      "n": 2359
+    },
+    "61": {
+      "pool": "seen",
+      "n": 2214
+    },
+    "105": {
+      "pool": "unseen",
+      "n": 2169
+    },
+    "0": {
+      "pool": "unseen",
+      "n": 1854
+    },
+    "7": {
+      "pool": "unseen",
+      "n": 1853
+    },
+    "125": {
+      "pool": "unseen",
+      "n": 1664
+    },
+    "51": {
+      "pool": "seen",
+      "n": 1519
+    },
+    "130": {
+      "pool": "unseen",
+      "n": 1451
+    },
+    "28": {
+      "pool": "unseen",
+      "n": 1330
+    },
+    "108": {
+      "pool": "seen",
+      "n": 1119
+    },
+    "40": {
+      "pool": "unseen",
+      "n": 1079
+    },
+    "90": {
+      "pool": "seen",
+      "n": 1007
+    }
+  },
+  "n_locations": 20,
+  "largest_location_share": 0.1698205007906306,
+  "class_mix_per_location_max_share": {
+    "38": {
+      "label": "opossum",
+      "share": 0.46045226644837817
+    },
+    "46": {
+      "label": "raccoon",
+      "share": 0.23356732610082961
+    },
+    "100": {
+      "label": "raccoon",
+      "share": 0.5220949263502455
+    },
+    "43": {
+      "label": "bobcat",
+      "share": 0.2685658631604578
+    },
+    "33": {
+      "label": "raccoon",
+      "share": 0.28746559919939957
+    },
+    "88": {
+      "label": "dog",
+      "share": 0.27548387096774196
+    },
+    "120": {
+      "label": "car",
+      "share": 0.49586776859504134
+    },
+    "115": {
+      "label": "rabbit",
+      "share": 0.4688063469166967
+    },
+    "78": {
+      "label": "squirrel",
+      "share": 0.24798643493005512
+    },
+    "61": {
+      "label": "rabbit",
+      "share": 0.48148148148148145
+    },
+    "105": {
+      "label": "opossum",
+      "share": 0.5643153526970954
+    },
+    "0": {
+      "label": "car",
+      "share": 0.6003236245954693
+    },
+    "7": {
+      "label": "opossum",
+      "share": 0.38855909336211547
+    },
+    "125": {
+      "label": "bobcat",
+      "share": 0.4411057692307692
+    },
+    "51": {
+      "label": "empty",
+      "share": 0.2218564845292956
+    },
+    "130": {
+      "label": "bobcat",
+      "share": 0.31909028256374916
+    },
+    "28": {
+      "label": "opossum",
+      "share": 0.33383458646616543
+    },
+    "108": {
+      "label": "opossum",
+      "share": 0.35656836461126007
+    },
+    "40": {
+      "label": "raccoon",
+      "share": 0.39759036144578314
+    },
+    "90": {
+      "label": "squirrel",
+      "share": 0.29493545183714004
+    }
+  },
+  "n_sequences": 22572,
+  "frames_per_sequence_distribution": {
+    "1": 5273,
+    "2": 49,
+    "3": 17036,
+    "5": 214
+  },
+  "mean_frames_per_sequence": 2.5495746943115365,
+  "share_images_in_multiframe_sequences": 0.9083737336878138,
+  "share_sequences_with_mixed_labels": 0.0006645401382243488,
+  "sequences_spanning_multiple_locations": 0,
+  "share_captured_22h_to_5h": {
+    "seen": 0.3663357234785806,
+    "unseen": 0.4319486253261088
+  },
+  "sample_n_images": 28943,
+  "sample_share_ir_greyscale": 0.6418477697543448,
+  "sample_share_ir_by_pool": {
+    "seen": 0.6075565528534175,
+    "unseen": 0.6872490766018949
+  },
+  "sample_share_ir_by_class": {
+    "bird": 0.1646090534979424,
+    "bobcat": 0.6105517519130085,
+    "car": 0.017843289371605897,
+    "cat": 0.6001788908765653,
+    "coyote": 0.4836216415163784,
+    "dog": 0.3058491895701198,
+    "empty": 0.4062186559679037,
+    "opossum": 0.9878101872006966,
+    "rabbit": 0.5032514450867052,
+    "raccoon": 0.9958752255736014,
+    "rodent": 1.0,
+    "skunk": 0.8940397350993378,
+    "squirrel": 0.05363748458692972
+  },
+  "sample_share_empty": 0.06889403309954048,
+  "ir_threshold_colourness": 3.0,
+  "sample_ir_share_per_location": {
+    "0": 0.11434735706580366,
+    "7": 0.8714902807775378,
+    "28": 0.7683109118086696,
+    "33": 0.8184523809523809,
+    "38": 0.7135565536953858,
+    "40": 0.8415094339622642,
+    "43": 0.5600388915896938,
+    "46": 0.717155612244898,
+    "51": 0.6715039577836411,
+    "61": 0.3064784053156146,
+    "78": 0.516156462585034,
+    "88": 0.6747603833865815,
+    "90": 0.4853801169590643,
+    "100": 0.8050778050778051,
+    "105": 0.6970534069981584,
+    "108": 0.7367491166077739,
+    "115": 0.6669049320943531,
+    "120": 0.12425644415069398,
+    "125": 0.6420047732696897,
+    "130": 0.7859116022099447
+  },
+  "sample_brightness_mean_by_pool": {
+    "seen": 82.25206869397084,
+    "unseen": 72.56193592151325
+  },
+  "sample_sharpness_median_by_pool": {
+    "seen": 642.4371948242188,
+    "unseen": 571.4549560546875
+  },
+  "sample_class_counts_by_pool": {
+    "seen": {
+      "opossum": 3864,
+      "rabbit": 2369,
+      "coyote": 1535,
+      "cat": 1524,
+      "raccoon": 1117,
+      "empty": 1067,
+      "squirrel": 1053,
+      "bobcat": 971,
+      "dog": 951,
+      "car": 734,
+      "bird": 617,
+      "rodent": 439,
+      "skunk": 248
+    },
+    "unseen": {
+      "opossum": 3027,
+      "raccoon": 2762,
+      "bobcat": 1512,
+      "coyote": 1182,
+      "empty": 927,
+      "cat": 712,
+      "squirrel": 569,
+      "car": 555,
+      "dog": 468,
+      "rabbit": 399,
+      "skunk": 205,
+      "bird": 112,
+      "rodent": 24
+    }
+  },
+  "sample_images_per_location": {
+    "0": 927,
+    "7": 926,
+    "28": 669,
+    "33": 2016,
+    "38": 4898,
+    "40": 530,
+    "43": 2057,
+    "46": 3136,
+    "51": 758,
+    "61": 1204,
+    "78": 1176,
+    "88": 1565,
+    "90": 513,
+    "100": 2442,
+    "105": 1086,
+    "108": 566,
+    "115": 1399,
+    "120": 1513,
+    "125": 838,
+    "130": 724
+  },
+  "grid_locations": {
+    "seen": [
+      120,
+      33,
+      90
+    ],
+    "unseen": [
+      0,
+      130,
+      100
+    ]
+  }
+}

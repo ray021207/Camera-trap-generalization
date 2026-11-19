@@ -1,0 +1,13 @@
+{
+  "requested": 28943,
+  "downloaded": 28943,
+  "already_present": 0,
+  "failed": 0,
+  "failed_examples": [],
+  "seconds": 901,
+  "original_gb_transferred": 11.74,
+  "resized_dir_gb": 2.166,
+  "max_side": 640,
+  "jpeg_quality": 88,
+  "source": "https://storage.googleapis.com/public-datasets-lila/caltech-unzipped/cct_images/<file_name>"
+}

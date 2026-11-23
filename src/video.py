@@ -4,15 +4,23 @@ The steps are the same ones the still-image crop model used (Phase 6), so a vide
 compared directly with the unseen-camera benchmark:
 
     frame (sampled at `fps`)
-      -> MegaDetector v5a, keep boxes with conf >= 0.2 (the same threshold as training)
+      -> animal detector, keep boxes with conf >= 0.2
       -> highest-confidence box, +10% margin, padded to a square, 224x224   (src/preprocess.py)
       -> DINOv2-small embedding [CLS, mean patch]                          (same as 06_extract_embeddings)
-      -> probe "b" refit on the crop embeddings with its saved C           (same as 07_train_probe)
+      -> probe "b" trained on the crop embeddings with its saved C         (same as 07_train_probe)
     visit = mean of the per-frame class probabilities over frames that have a detection;
             no detection in any frame -> "empty".
 
+Detectors:
+  "mdv6"  (default) MegaDetector v6 MDV6-apa-rtdetr-c, Apache-2.0 / CC BY 4.0, run with the vendored RT-DETRv2
+          code in src/third_party (Apache-2.0). Needs only torch + torchvision.
+  "mdv5a" (legacy)  MegaDetector v5a, the detector whose boxes the classifier was trained on (via LILA's published
+          results). Needs `pip install megadetector`, which pulls in GPL-3.0 YOLOv5 code; weight licence unclear.
+Pick with the CAMERATRAP_DETECTOR environment variable or Detector(name=...).
+
 The input source is swappable: `iter_frames` takes a video file path or a webcam index.
 """
+import hashlib
 import os
 import time
 from pathlib import Path
@@ -23,10 +31,15 @@ from src.common import DATA, ROOT, SEED, load_json
 
 os.environ.setdefault("HF_HOME", str(DATA / "hf"))   # keep DINOv2 weights inside the project
 
-MD_WEIGHTS = DATA / "models" / "md_v5a.0.0.pt"
+MODELS = DATA / "models"
+DETECTOR = os.environ.get("CAMERATRAP_DETECTOR", "mdv6")
 MD_CONF = 0.2
+MDV5A_WEIGHTS = MODELS / "md_v5a.0.0.pt"
+MDV6 = dict(file="MDV6-apa-rtdetr-c.pth", md5="3992888e26f627ee5a4ff9f116be97c3",
+            url="https://zenodo.org/records/15398270/files/MDV6-apa-rtdetr-c.pth?download=1",
+            config=ROOT / "src" / "third_party" / "rtdetrv2_pytorch" / "configs" / "rtdetrv2" / "rtdetrv2_r18vd_120e_megadetector.yml")
 DINO_ID = "facebook/dinov2-small"
-PROBE_CACHE = DATA / "models" / "probe_b_crop.joblib"
+PROBE_NPZ = ROOT / "models" / "probe_b_crop.npz"   # committed: the trained classifier as plain arrays (no pickle)
 
 
 # ---- input ------------------------------------------------------------------------------
@@ -66,15 +79,96 @@ def iter_frames(source, fps: float = 1.0, max_seconds: float | None = None):
 
 
 # ---- detector ---------------------------------------------------------------------------
-class Detector:
-    def __init__(self, weights: Path = MD_WEIGHTS):
+def _md5(p):
+    h = hashlib.md5()
+    with open(p, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def fetch_mdv6(dest_dir: Path = MODELS) -> Path:
+    """Download the MDv6 RT-DETR-c weights once (322 MB) and check their md5."""
+    p = Path(dest_dir) / MDV6["file"]
+    if not p.exists():
+        import requests
+        p.parent.mkdir(parents=True, exist_ok=True)
+        tmp = p.with_suffix(".part")
+        with requests.get(MDV6["url"], stream=True, timeout=120) as r:
+            r.raise_for_status()
+            with open(tmp, "wb") as f:
+                for b in r.iter_content(1 << 20):
+                    f.write(b)
+        tmp.rename(p)
+    if _md5(p) != MDV6["md5"]:
+        raise RuntimeError(f"{p} has the wrong checksum; delete it and run again")
+    return p
+
+
+def mdv6_state_dict(dest_dir: Path = MODELS) -> Path:
+    """Tensors-only copy of the MDv6 EMA weights (~80 MB instead of 322 MB), so normal loading never has to
+    unpickle. Built once from the md5-checked Zenodo checkpoint. That one unpickling step is the only place
+    weights_only=False is used, and only on the file whose checksum was just verified."""
+    import torch
+    out = Path(dest_dir) / "MDV6-apa-rtdetr-c.ema.pt"
+    if not out.exists():
+        ck = torch.load(fetch_mdv6(dest_dir), map_location="cpu", weights_only=False)
+        torch.save(ck["ema"]["module"] if "ema" in ck else ck["model"], out)
+    return out
+
+
+class MDv6Detector:
+    """MegaDetector v6, RT-DETRv2 compact (MDV6-apa-rtdetr-c). Loader follows Pytorch-Wildlife's
+    rtdetr_apache_base.py (MIT): resize to 640x640, ToTensor (no normalisation), model + post-processor."""
+    name = "mdv6"
+
+    def __init__(self, weights: Path | None = None):
+        import torch
+        import torchvision.transforms as T
+        from src.third_party.rtdetrv2_pytorch.src.core import YAMLConfig   # importing the package registers the modules
+        weights = Path(weights) if weights else mdv6_state_dict()
+        # pretrained=False: skip downloading ImageNet backbone weights, the checkpoint below replaces them anyway
+        cfg = YAMLConfig(str(MDV6["config"]), PResNet={"pretrained": False})
+        cfg.model.load_state_dict(torch.load(weights, map_location="cpu", weights_only=True))
+        self.model, self.post = cfg.model.deploy().eval(), cfg.postprocessor.deploy().eval()
+        self.tf = T.Compose([T.Resize((640, 640)), T.ToTensor()])
+        self.torch = torch
+
+    def __call__(self, img):
+        """Detections with conf >= MD_CONF in MegaDetector format: category '1' animal, '2' person, '3' vehicle;
+        bbox = [x, y, w, h] as fractions of the image."""
+        W, H = img.size
+        with self.torch.inference_mode():
+            out = self.post(self.model(self.tf(img)[None]), self.torch.tensor([[W, H]]))
+        labels, boxes, scores = out[0] if isinstance(out, (list, tuple)) and isinstance(out[0], (list, tuple)) else out
+        labels, boxes, scores = labels[0].numpy(), boxes[0].numpy(), scores[0].numpy()
+        dets = []
+        for c, (x0, y0, x1, y1), s in zip(labels, boxes, scores):
+            if s < MD_CONF:
+                continue
+            x0, y0, x1, y1 = max(0.0, float(x0)), max(0.0, float(y0)), min(W, float(x1)), min(H, float(y1))
+            if x1 <= x0 or y1 <= y0:
+                continue
+            dets.append(dict(category=str(int(c) + 1), conf=float(s),
+                             bbox=[x0 / W, y0 / H, (x1 - x0) / W, (y1 - y0) / H]))
+        return dets
+
+
+class MDv5aDetector:
+    """Legacy: MegaDetector v5a through the `megadetector` package (not in requirements; GPL-3.0 YOLOv5 code)."""
+    name = "mdv5a"
+
+    def __init__(self, weights: Path = MDV5A_WEIGHTS):
         from megadetector.detection.run_detector import load_detector
         self.model = load_detector(str(weights))
 
     def __call__(self, img):
-        """Detections with conf >= MD_CONF, MegaDetector format: bbox = [x, y, w, h] as fractions."""
         r = self.model.generate_detections_one_image(img, detection_threshold=MD_CONF)
         return r.get("detections") or []
+
+
+def Detector(name: str = DETECTOR):
+    return {"mdv6": MDv6Detector, "mdv5a": MDv5aDetector}[name]()
 
 
 # ---- classifier -------------------------------------------------------------------------
@@ -96,22 +190,37 @@ def fit_probe_b_crop():
     return dict(scaler=sc, clf=clf, classes=classes, C=C, E=E, df=df)
 
 
-def load_probe():
-    """Load the cached probe, or refit it and check it reproduces the saved Phase 4 probabilities."""
-    import joblib
-    # joblib unpickles, so only load the cache this function wrote itself (data/ is local and gitignored).
-    if PROBE_CACHE.exists():
-        return joblib.load(PROBE_CACHE)
+def probe_proba(probe, E):
+    """Multinomial logistic regression on standardised embeddings: softmax((E - mean) / scale @ W.T + b)."""
+    z = (np.asarray(E, np.float64) - probe["mean"]) / probe["scale"]
+    logits = z @ probe["coef"].T + probe["intercept"]
+    logits -= logits.max(1, keepdims=True)
+    p = np.exp(logits)
+    return p / p.sum(1, keepdims=True)
+
+
+def export_probe(path: Path = PROBE_NPZ):
+    """Refit probe 'b' from the stored Phase 4 crop embeddings, check it reproduces the saved Phase 4
+    probabilities, and write it as plain arrays. Needs data/ (the training embeddings); the result is committed."""
     p = fit_probe_b_crop()
+    probe = dict(mean=p["scaler"].mean_, scale=p["scaler"].scale_, coef=p["clf"].coef_, intercept=p["clf"].intercept_)
     ref = np.load(DATA / "emb" / "proba_b_crop.npy")
-    got = p["clf"].predict_proba(p["scaler"].transform(p["E"]))
-    max_diff = float(np.abs(got - ref).max())
+    max_diff = float(np.abs(probe_proba(probe, p["E"]) - ref).max())
     if max_diff > 1e-3:
-        raise RuntimeError(f"refit probe does not match Phase 4 (max |dp| = {max_diff:.4g})")
-    probe = dict(scaler=p["scaler"], clf=p["clf"], classes=p["classes"], C=p["C"], check_max_abs_diff=max_diff)
-    PROBE_CACHE.parent.mkdir(exist_ok=True)
-    joblib.dump(probe, PROBE_CACHE)
-    return probe
+        raise RuntimeError(f"exported probe does not match Phase 4 (max |dp| = {max_diff:.4g})")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    np.savez(path, classes=np.array(p["classes"]), C=p["C"], check_max_abs_diff=max_diff,
+             **{k: v.astype(np.float64) for k, v in probe.items()})
+    return path
+
+
+def load_probe(path: Path = PROBE_NPZ):
+    """The trained classifier from models/probe_b_crop.npz (plain arrays, loaded without pickle)."""
+    if not path.exists():
+        export_probe(path)
+    z = np.load(path, allow_pickle=False)
+    return dict(mean=z["mean"], scale=z["scale"], coef=z["coef"], intercept=z["intercept"],
+                classes=[str(c) for c in z["classes"]], C=float(z["C"]), check_max_abs_diff=float(z["check_max_abs_diff"]))
 
 
 class Classifier:
@@ -120,8 +229,8 @@ class Classifier:
         from transformers import AutoModel
         self.torch = torch
         self.model = AutoModel.from_pretrained(DINO_ID).eval()
-        probe = load_probe()
-        self.scaler, self.clf, self.classes = probe["scaler"], probe["clf"], probe["classes"]
+        self.probe = load_probe()
+        self.classes = self.probe["classes"]
 
     def embed(self, crops):
         from src import preprocess as P
@@ -132,7 +241,7 @@ class Classifier:
 
     def proba(self, crops):
         E = self.embed(crops).astype(np.float16).astype(np.float32)   # training embeddings were stored as float16
-        return self.clf.predict_proba(self.scaler.transform(E))
+        return probe_proba(self.probe, E)
 
 
 # ---- per-frame and per-visit ------------------------------------------------------------
@@ -163,23 +272,34 @@ def draw_bgr(bgr, f, classes, t=None):
     """Draw in place on a BGR numpy frame and return it."""
     import cv2
     H, W = bgr.shape[:2]
-    s = max(1.0, W / 960)                                  # scale text and lines with the frame size
-    if f["proba"] is not None:
+    s = max(0.6, min(W, H * 16 / 9) / 1280)                # scale text and lines with the frame size
+    font, fs, th = cv2.FONT_HERSHEY_SIMPLEX, 0.75 * s, max(1, int(2 * s))
+
+    def tag(text, x, y, fg, bg):
+        """Text on a filled box; (x, y) is the box's bottom-left corner, kept inside the frame."""
+        (tw, tht), base = cv2.getTextSize(text, font, fs, th)
+        pad = int(6 * s)
+        x = min(max(0, x), max(0, W - tw - 2 * pad))
+        y = min(max(tht + base + 2 * pad, y), H)
+        cv2.rectangle(bgr, (x, y - tht - base - 2 * pad), (x + tw + 2 * pad, y), bg, -1)
+        cv2.putText(bgr, text, (x + pad, y - base - pad), font, fs, fg, th, cv2.LINE_AA)
+
+    green = (60, 200, 60)
+    if f["proba"] is not None and is_animal_frame(f, classes):
         p = np.asarray(f["proba"])
         k = int(p.argmax())
         x, y, w, h = f["bbox"]
         x0, y0, x1, y1 = int(x * W), int(y * H), int((x + w) * W), int((y + h) * H)
-        cv2.rectangle(bgr, (x0, y0), (x1, y1), (0, 255, 0), int(2 * s))
-        label = f"{classes[k]} {p[k]:.2f}  (md {f['best_conf']:.2f})"
-        cv2.putText(bgr, label, (x0, max(int(25 * s), y0 - int(8 * s))), cv2.FONT_HERSHEY_SIMPLEX,
-                    0.7 * s, (0, 255, 0), int(2 * s))
+        cv2.rectangle(bgr, (x0, y0), (x1, y1), green, max(2, int(3 * s)))
+        tag(f"{classes[k]} {p[k]:.0%}", x0, y0, (255, 255, 255), green)
+        below = y1 + int(34 * s)
+        if below > H - int(80 * s):            # box reaches the bottom: put the tag just inside its top edge
+            below = max(y0, int(44 * s)) + int(34 * s)
+        tag(f"detector {f['best_conf']:.0%}", x0, below, (255, 255, 255), (70, 70, 70))
     else:
-        cv2.putText(bgr, "no animal detected", (int(10 * s), int(30 * s)), cv2.FONT_HERSHEY_SIMPLEX,
-                    0.7 * s, (0, 200, 255), int(2 * s))
+        tag("no animal", int(10 * s), int(44 * s), (255, 255, 255), (70, 70, 70))
     if t is not None:
-        secs = f["md_seconds"] + f["cls_seconds"]
-        cv2.putText(bgr, f"t={t:.1f}s  {secs:.2f} s/frame", (int(10 * s), H - int(45 * s)),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.6 * s, (255, 255, 255), int(2 * s))
+        tag(f"t = {t:.1f} s", int(10 * s), H - int(40 * s), (255, 255, 255), (40, 40, 40))
     return bgr
 
 
@@ -239,12 +359,23 @@ def annotate_video(in_path, out_path, det: Detector, cls: Classifier, fps: float
     return frames, vote(frames, cls.classes)
 
 
+def is_animal_frame(f, classes):
+    """A frame counts as showing an animal when the detector boxed something AND the classifier's top class
+    for that crop is not 'empty'. The 'empty' class was trained on crops of false detections, so it acts as
+    a filter for detector false positives (e.g. MDv6 boxing title cards or logos)."""
+    return f["proba"] is not None and classes[int(np.argmax(f["proba"]))] != "empty"
+
+
 def vote(frames, classes):
-    """Visit-level decision: average the probabilities of frames with a detection."""
-    P = [f["proba"] for f in frames if f["proba"] is not None]
+    """Visit-level decision: average the probabilities of the animal frames (see is_animal_frame).
+    No animal frame -> 'empty'. (The 'empty' filter was added after MDv6 produced false boxes on clip title
+    cards; it is applied to both detectors and reported in results/video_eval_*.json.)"""
+    det = [f for f in frames if f["proba"] is not None]
+    P = [f["proba"] for f in det if is_animal_frame(f, classes)]
     if not P:
-        return dict(pred="empty", conf=None, n_frames=len(frames), n_det_frames=0, proba=None)
+        conf = float(np.mean([f["proba"][classes.index("empty")] for f in det])) if det else None
+        return dict(pred="empty", conf=conf, n_frames=len(frames), n_det_frames=len(det), n_animal_frames=0, proba=None)
     m = np.mean(P, axis=0)
     order = np.argsort(m)[::-1]
     return dict(pred=classes[order[0]], conf=float(m[order[0]]), second=classes[order[1]],
-                second_conf=float(m[order[1]]), n_frames=len(frames), n_det_frames=len(P), proba=m)
+                second_conf=float(m[order[1]]), n_frames=len(frames), n_det_frames=len(det), n_animal_frames=len(P), proba=m)

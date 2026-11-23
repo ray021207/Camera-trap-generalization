@@ -1,0 +1,205 @@
+{
+  "fps": "1fps_mdv5a",
+  "n_clips": 23,
+  "n_sites": 13,
+  "n_boot": 10000,
+  "seed": 42,
+  "cluster": "region (site)",
+  "tiers": {
+    "1": 11,
+    "2": 5,
+    "3": 7
+  },
+  "overlap_risk": {
+    "low": 16,
+    "medium": 5,
+    "high": 2
+  },
+  "known": {
+    "all": {
+      "n": 16,
+      "mean": 0.875,
+      "ci": [
+        0.7058823529411765,
+        1.0
+      ],
+      "n_clusters": 9
+    },
+    "tier1": {
+      "n": 11,
+      "mean": 0.8181818181818182,
+      "ci": [
+        0.5714285714285714,
+        1.0
+      ],
+      "n_clusters": 6
+    },
+    "tier2": {
+      "n": 5,
+      "mean": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ],
+      "n_clusters": 4
+    },
+    "low_overlap_risk": {
+      "n": 12,
+      "mean": 0.8333333333333334,
+      "ci": [
+        0.625,
+        1.0
+      ],
+      "n_clusters": 7
+    },
+    "median_conf_correct": 0.6295696666666667,
+    "median_conf_wrong": 0.3115393956521739,
+    "per_class": {
+      "bird": {
+        "n": 2,
+        "correct": 2
+      },
+      "bobcat": {
+        "n": 3,
+        "correct": 3
+      },
+      "coyote": {
+        "n": 2,
+        "correct": 2
+      },
+      "dog": {
+        "n": 1,
+        "correct": 1
+      },
+      "raccoon": {
+        "n": 6,
+        "correct": 4
+      },
+      "skunk": {
+        "n": 1,
+        "correct": 1
+      },
+      "squirrel": {
+        "n": 1,
+        "correct": 1
+      }
+    },
+    "errors": [
+      {
+        "clip_id": "v053",
+        "true_species": "raccoon",
+        "pred": "squirrel",
+        "conf": 0.3223623913043479
+      },
+      {
+        "clip_id": "v056",
+        "true_species": "raccoon",
+        "pred": "bobcat",
+        "conf": 0.3007164
+      }
+    ]
+  },
+  "unknown": {
+    "n": 7,
+    "detected": 7,
+    "sensible": {
+      "n": 7,
+      "mean": 0.7142857142857143,
+      "ci": [
+        0.4,
+        1.0
+      ],
+      "n_clusters": 5
+    },
+    "median_conf": 0.5206294117647059,
+    "answers": [
+      {
+        "clip_id": "v049",
+        "true_species": "gray fox",
+        "pred": "coyote",
+        "conf": 0.34944100000000006,
+        "sensible_classes": "coyote|dog"
+      },
+      {
+        "clip_id": "v050",
+        "true_species": "American black bear",
+        "pred": "coyote",
+        "conf": 0.2599207142857143,
+        "sensible_classes": ""
+      },
+      {
+        "clip_id": "v059",
+        "true_species": "mountain lion (kitten)",
+        "pred": "bobcat",
+        "conf": 0.41362928571428575,
+        "sensible_classes": "bobcat|cat"
+      },
+      {
+        "clip_id": "v060",
+        "true_species": "mountain lion",
+        "pred": "bobcat",
+        "conf": 0.7427881818181817,
+        "sensible_classes": "bobcat|cat"
+      },
+      {
+        "clip_id": "v061",
+        "true_species": "gray wolf",
+        "pred": "dog",
+        "conf": 0.7635033333333334,
+        "sensible_classes": "coyote|dog"
+      },
+      {
+        "clip_id": "v062",
+        "true_species": "gray wolf",
+        "pred": "coyote",
+        "conf": 0.5206294117647059,
+        "sensible_classes": "coyote|dog"
+      },
+      {
+        "clip_id": "v065",
+        "true_species": "European badger",
+        "pred": "skunk",
+        "conf": 0.7182583333333333,
+        "sensible_classes": ""
+      }
+    ]
+  },
+  "confidence_cutoff_sweep": [
+    {
+      "threshold": 0.3,
+      "known_correct_flagged": 0.07142857142857142,
+      "known_wrong_flagged": 0.0,
+      "unknown_flagged": 0.14285714285714285
+    },
+    {
+      "threshold": 0.4,
+      "known_correct_flagged": 0.2857142857142857,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.2857142857142857
+    },
+    {
+      "threshold": 0.5,
+      "known_correct_flagged": 0.2857142857142857,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.42857142857142855
+    },
+    {
+      "threshold": 0.6,
+      "known_correct_flagged": 0.42857142857142855,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.5714285714285714
+    },
+    {
+      "threshold": 0.7,
+      "known_correct_flagged": 0.6428571428571429,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.5714285714285714
+    },
+    {
+      "threshold": 0.8,
+      "known_correct_flagged": 0.6428571428571429,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 1.0
+    }
+  ]
+}

@@ -19,7 +19,9 @@ LICENSES_AND_ATTRIBUTION.md + licenses/ + THIRD_PARTY_LICENSES.md written. Open 
 
 ## Decisions to remember
 - MegaDetector is NOT run locally for the image results: LILA's precomputed MDv5a detections are used (CPU inference on ~29k full-size frames is impractical, and the v5a weight licence is unclear). Say so wherever Phase 6 is described.
-- The video stage DOES run MDv5a locally (weights in data/models/, not redistributed; ~1.4 s per frame on CPU). It pulls in ultralytics-yolov5 (ships GPL-3.0) and a GPLv3 ffmpeg binary. Documented in LICENSES_AND_ATTRIBUTION.md; switching to a MegaDetector v6 MIT model would remove the question.
+- The video stage uses MegaDetector v6 MDV6-apa-rtdetr-c (Apache-2.0 / CC BY 4.0), run with RT-DETRv2 code vendored in src/third_party (Apache-2.0); ~0.2 s per frame on CPU. PytorchWildlife is NOT installed (it depends on AGPL ultralytics). megadetector/ultralytics-yolov5 (GPL) were removed after a one-off v5a comparison (results/video_eval_1fps_mdv5a.json: 0.88 vs 0.69 for v6 on 16 known-species clips; gap = 3 low-confidence clips).
+- The visit vote ignores frames whose crop the probe calls 'empty' (added after MDv6 boxed title cards; no effect on v5a).
+- The classifier is committed as models/probe_b_crop.npz (plain arrays), so the demo runs from a fresh clone without data/.
 - Video test clips must never come from Caltech Camera Traps. NPS Santa Monica Mountains and USGS southern-California footage is flagged `cct_overlap_risk` (possible shared cameras). Only public-domain or CC clips are used; standard-licence YouTube videos are not downloaded.
 - New clips: drop files in data/video_test/inbox/ (see the README.txt there), log them with scripts/video_add_clips.py, then run scripts 15 and 16.
 - The private study guide (NOTES.md) is kept locally and is gitignored; it was also removed from the git history before publishing.

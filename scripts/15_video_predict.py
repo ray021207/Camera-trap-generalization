@@ -3,10 +3,11 @@
     python scripts/15_video_predict.py                 # all clips not yet processed, 1 frame per second
     python scripts/15_video_predict.py --fps 2 --force # re-run everything at 2 fps
     python scripts/15_video_predict.py --clips v046    # just these clip ids
+    set CAMERATRAP_DETECTOR=mdv5a                      # (Windows) use the legacy MegaDetector v5a instead of v6
     python scripts/15_video_predict.py --source 0 --seconds 30 --show   # live webcam demo in a window
     python scripts/15_video_predict.py --source data/video_test/raw/v046.mp4 --show   # watch one clip
 
-Per-clip frame results are cached in data/video_test/frames/<clip_id>_<fps>fps.json, so adding clips
+Per-clip frame results are cached in data/video_test/frames/<clip_id>_<fps>fps_<detector>.json, so adding clips
 later only processes the new ones. Writes data/video_test/preds_clips.csv (one row per clip = one visit)
 and results/video_predict.json (counts and speed; accuracy is computed by 16_video_evaluate.py).
 """
@@ -84,7 +85,7 @@ def main():
     if a.clips:
         clips = clips[clips.clip_id.isin(a.clips)]
     cache = VT / "frames"; cache.mkdir(exist_ok=True)
-    tag = f"{a.fps:g}fps"
+    tag = f"{a.fps:g}fps_{det.name}"
 
     for _, c in clips.iterrows():
         cf = cache / f"{c.clip_id}_{tag}.json"
@@ -119,7 +120,7 @@ def main():
         meta = allclips.loc[r["clip_id"]]
         row = dict(clip_id=r["clip_id"], tier=meta.tier, true_species=meta.true_species, model_class=meta.model_class,
                    pred=v["pred"], conf=v["conf"], second=v.get("second"), second_conf=v.get("second_conf"),
-                   n_frames=v["n_frames"], n_det_frames=v["n_det_frames"],
+                   n_frames=v["n_frames"], n_det_frames=v["n_det_frames"], n_animal_frames=v["n_animal_frames"],
                    max_md_conf=max((f["best_conf"] for f in frames), default=0.0))
         if v["proba"] is not None:
             row.update({f"p_{k}": float(p) for k, p in zip(r["classes"], v["proba"])})
@@ -128,7 +129,7 @@ def main():
     out.to_csv(VT / f"preds_clips_{tag}.csv", index=False)
 
     cls_nonzero = [s for s in cls_s if s > 0]
-    save_json(dict(fps=a.fps, n_clips=len(out), n_frames=n_frames, md_conf=V.MD_CONF, md_weights=V.MD_WEIGHTS.name,
+    save_json(dict(fps=a.fps, n_clips=len(out), n_frames=n_frames, md_conf=V.MD_CONF, detector=det.name,
                    probe_C=V.load_probe()["C"], probe_check_max_abs_diff=V.load_probe()["check_max_abs_diff"],
                    model_load_seconds=round(load_s, 1),
                    md_seconds_per_frame_median=float(np.median(md_s)) if md_s else None,

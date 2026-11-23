@@ -1,6 +1,7 @@
 """Video stage: score the per-clip (per-visit) predictions from 15_video_predict.py.
 
-    python scripts/16_video_evaluate.py            # uses the 1 fps predictions
+    python scripts/16_video_evaluate.py                     # 1 fps, MegaDetector v6 predictions (fills the README)
+    python scripts/16_video_evaluate.py --detector mdv5a    # legacy v5a predictions, for comparison (README untouched)
 
 Each clip is one visit. Clips from the same site are not independent (same camera or same study), so the
 95% intervals come from a CLUSTER bootstrap that resamples whole sites (the `region` column), the same idea
@@ -54,7 +55,9 @@ def fmt(r):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fps", type=float, default=1.0)
-    tag = f"{ap.parse_args().fps:g}fps"
+    ap.add_argument("--detector", default="mdv6", choices=["mdv6", "mdv5a"])
+    a = ap.parse_args()
+    tag = f"{a.fps:g}fps_{a.detector}"
     rng = np.random.default_rng(SEED)
 
     clips = pd.read_csv(VT / "clips.csv", dtype=str).fillna("")
@@ -99,25 +102,33 @@ def main():
     clips.drop(columns=["file"]).to_csv(RESULTS / "video_clips.csv", index=False)
 
     K = out["known"]
-    lines = [f"Video test, {out['n_clips']} clips from {out['n_sites']} sites, one visit per clip, {tag.replace('fps', ' frame/s')} "
+    lines = [f"Video test, {out['n_clips']} clips from {out['n_sites']} sites, one visit per clip, {a.fps:g} frame/s, detector {a.detector} "
              f"(`results/video_eval_{tag}.json`). Accuracy with 95% site-cluster bootstrap intervals.", "",
              "| Clips | n | Accuracy [95% CI] |", "|---|---|---|",
              f"| Known species, all (tier 1 + 2) | {K['all']['n']} | {fmt(K['all'])} |",
              f"| Tier 1: training species, new camera | {K['tier1']['n']} | {fmt(K['tier1'])} |",
              f"| Tier 2: related species mapped to a class | {K['tier2']['n']} | {fmt(K['tier2'])} |",
-             f"| Known species, low risk of sharing the training camera network | {K['low_overlap_risk']['n']} | {fmt(K['low_overlap_risk'])} |",
-             "", f"Unknown species (tier 3, n = {out['unknown']['n']}): the forced answer was a sensible relative in "
+             f"| Known species, low risk of sharing the training camera network | {K['low_overlap_risk']['n']} | {fmt(K['low_overlap_risk'])} |"]
+    other = "mdv5a" if a.detector == "mdv6" else "mdv6"
+    op = RESULTS / f"video_eval_{a.fps:g}fps_{other}.json"
+    if op.exists():                     # same clips, other detector: side-by-side row
+        import json
+        O = json.load(open(op))["known"]
+        name = "legacy MegaDetector v5a (the detector behind the training crops)" if other == "mdv5a" else "MegaDetector v6"
+        lines.append(f"| Known species, all, with the {name} | {O['all']['n']} | {fmt(O['all'])} |")
+    lines += ["", f"Unknown species (tier 3, n = {out['unknown']['n']}): the forced answer was a sensible relative in "
              f"{fmt(out['unknown']['sensible'])} of clips; median confidence {out['unknown']['median_conf']:.2f} "
              f"(known species: {K['median_conf_correct']:.2f} when right, {K['median_conf_wrong']:.2f} when wrong).", "",
              "| Confidence cut-off | Known, correct, flagged | Known, wrong, flagged | Unknown species flagged |", "|---|---|---|---|"]
+    out_tables = RESULTS / ("video_tables.md" if a.detector == "mdv6" else f"video_tables_{a.detector}.md")
     pct = lambda v: "-" if v is None else format(v, ".0%")
     for s in sweep:
         lines.append(f"| < {s['threshold']:.1f} | {pct(s['known_correct_flagged'])} | "
                      f"{pct(s['known_wrong_flagged'])} | {pct(s['unknown_flagged'])} |")
     block = "\n".join(lines)
-    (RESULTS / "video_tables.md").write_text(block + "\n", encoding="utf-8")
+    out_tables.write_text(block + "\n", encoding="utf-8")
     rd = (ROOT / "README.md").read_text(encoding="utf-8")
-    if "<!-- VIDEO_TABLE:START -->" in rd:
+    if "<!-- VIDEO_TABLE:START -->" in rd and a.detector == "mdv6" and a.fps == 1.0:
         rd = re.sub(r"(<!-- VIDEO_TABLE:START -->)(.*?)(<!-- VIDEO_TABLE:END -->)",
                     lambda m: m.group(1) + "\n" + block + "\n" + m.group(3), rd, flags=re.S)
         (ROOT / "README.md").write_text(rd, encoding="utf-8")

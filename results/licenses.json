@@ -10,25 +10,13 @@
     "description": "Database of camera trap images collected from the NPS and the USGS with help from Justin Brown and Erin Boydston",
     "year": 2018
   },
-  "n_packages": 122,
-  "flagged": [
-    "ultralytics-yolov5"
-  ],
+  "n_packages": 84,
+  "flagged": [],
   "no_licence_file_copied": [
     "gradio-client",
-    "tensorboard-data-server",
     "tokenizers"
   ],
   "packages": [
-    {
-      "package": "absl-py",
-      "version": "2.5.1",
-      "license": "Apache-2.0",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
     {
       "package": "annotated-doc",
       "version": "0.0.7",
@@ -51,15 +39,6 @@
       "package": "anyio",
       "version": "4.16.0",
       "license": "MIT",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "asttokens",
-      "version": "3.0.2",
-      "license": "Apache 2.0",
       "files": [
         "LICENSE"
       ],
@@ -102,15 +81,6 @@
       "flagged": false
     },
     {
-      "package": "clipboard",
-      "version": "1.0.0",
-      "license": "MIT",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
       "package": "cloudpickle",
       "version": "3.1.3",
       "license": "BSD-3-Clause",
@@ -147,24 +117,6 @@
       "flagged": false
     },
     {
-      "package": "dill",
-      "version": "0.4.1",
-      "license": "BSD-3-Clause",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "executing",
-      "version": "2.3.0",
-      "license": "MIT",
-      "files": [
-        "LICENSE.txt"
-      ],
-      "flagged": false
-    },
-    {
       "package": "fastapi",
       "version": "0.165.0",
       "license": "MIT",
@@ -174,27 +126,9 @@
       "flagged": false
     },
     {
-      "package": "fastquadtree",
-      "version": "2.4.2",
-      "license": "MIT License",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
       "package": "filelock",
       "version": "4.2.4",
       "license": "MIT",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "fire",
-      "version": "0.7.1",
-      "license": "Apache-2.0",
       "files": [
         "LICENSE"
       ],
@@ -239,15 +173,6 @@
       "package": "groovy",
       "version": "0.1.2",
       "license": "MIT License",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "grpcio",
-      "version": "1.85.3",
-      "license": "Apache-2.0",
       "files": [
         "LICENSE"
       ],
@@ -326,15 +251,6 @@
       "flagged": false
     },
     {
-      "package": "humanfriendly",
-      "version": "10.0",
-      "license": "MIT",
-      "files": [
-        "LICENSE.txt"
-      ],
-      "flagged": false
-    },
-    {
       "package": "idna",
       "version": "3.20",
       "license": "BSD-3-Clause",
@@ -349,43 +265,6 @@
       "license": "BSD-2-Clause",
       "files": [
         "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "iniconfig",
-      "version": "2.3.1",
-      "license": "MIT",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "ipython",
-      "version": "9.18.1",
-      "license": "BSD-3-Clause",
-      "files": [
-        "COPYING.rst",
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "ipython-pygments-lexers",
-      "version": "1.1.1",
-      "license": "BSD License",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "jedi",
-      "version": "0.20.1",
-      "license": "MIT",
-      "files": [
-        "LICENSE.txt"
       ],
       "flagged": false
     },
@@ -408,15 +287,6 @@
       "flagged": false
     },
     {
-      "package": "jsonpickle",
-      "version": "4.1.4",
-      "license": "BSD-3-Clause",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
       "package": "kiwisolver",
       "version": "1.5.1",
       "license": "BSD License",
@@ -432,15 +302,6 @@
       "files": [
         "LICENSE",
         "LICENSE.thirdparty"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "markdown",
-      "version": "3.11.3",
-      "license": "BSD-3-Clause",
-      "files": [
-        "LICENSE.md"
       ],
       "flagged": false
     },
@@ -473,27 +334,9 @@
       "flagged": false
     },
     {
-      "package": "matplotlib-inline",
-      "version": "0.2.2",
-      "license": "BSD-3-Clause",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
       "package": "mdurl",
       "version": "0.1.2",
       "license": "MIT License",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "megadetector",
-      "version": "10.0.28",
-      "license": "MIT",
       "files": [
         "LICENSE"
       ],
@@ -629,65 +472,11 @@
       "flagged": false
     },
     {
-      "package": "parso",
-      "version": "0.8.7",
-      "license": "MIT",
-      "files": [
-        "LICENSE.txt"
-      ],
-      "flagged": false
-    },
-    {
       "package": "pillow",
       "version": "13.0.0",
       "license": "MIT-CMU",
       "files": [
         "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "pluggy",
-      "version": "1.7.0",
-      "license": "MIT",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "prompt-toolkit",
-      "version": "3.0.53",
-      "license": "BSD License",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "protobuf",
-      "version": "3.20.1",
-      "license": "BSD-3-Clause",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "psutil",
-      "version": "7.2.2",
-      "license": "BSD-3-Clause",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "pure-eval",
-      "version": "0.2.4",
-      "license": "MIT",
-      "files": [
-        "LICENSE.txt"
       ],
       "flagged": false
     },
@@ -739,33 +528,6 @@
     {
       "package": "pyparsing",
       "version": "3.3.3",
-      "license": "MIT",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "pyperclip",
-      "version": "1.11.0",
-      "license": "BSD",
-      "files": [
-        "LICENSE.txt"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "pyreadline3",
-      "version": "3.5.6",
-      "license": "BSD",
-      "files": [
-        "LICENSE.md"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "pytest",
-      "version": "9.2.0",
       "license": "MIT",
       "files": [
         "LICENSE"
@@ -837,15 +599,6 @@
       "flagged": false
     },
     {
-      "package": "ruff",
-      "version": "0.17.6",
-      "license": "MIT",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
       "package": "safehttpx",
       "version": "0.1.7",
       "license": "MIT License",
@@ -882,27 +635,9 @@
       "flagged": false
     },
     {
-      "package": "seaborn",
-      "version": "0.13.2",
-      "license": "BSD License",
-      "files": [
-        "LICENSE.md"
-      ],
-      "flagged": false
-    },
-    {
       "package": "semantic-version",
       "version": "2.10.0",
       "license": "BSD",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "send2trash",
-      "version": "2.2.0",
-      "license": "BSD-3-Clause",
       "files": [
         "LICENSE"
       ],
@@ -945,15 +680,6 @@
       "flagged": false
     },
     {
-      "package": "stack-data",
-      "version": "0.6.3",
-      "license": "MIT",
-      "files": [
-        "LICENSE.txt"
-      ],
-      "flagged": false
-    },
-    {
       "package": "starlette",
       "version": "1.10.0",
       "license": "BSD-3-Clause",
@@ -966,40 +692,6 @@
       "package": "sympy",
       "version": "1.14.0",
       "license": "BSD",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "tensorboard",
-      "version": "2.20.0",
-      "license": "Apache 2.0",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "tensorboard-data-server",
-      "version": "0.7.2",
-      "license": "Apache 2.0",
-      "files": [],
-      "flagged": false
-    },
-    {
-      "package": "termcolor",
-      "version": "3.3.0",
-      "license": "MIT",
-      "files": [
-        "COPYING.txt"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "thop",
-      "version": "0.1.1-2209072238",
-      "license": "MIT",
       "files": [
         "LICENSE"
       ],
@@ -1118,15 +810,6 @@
       "flagged": false
     },
     {
-      "package": "traitlets",
-      "version": "5.16.1",
-      "license": "BSD License",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
       "package": "transformers",
       "version": "5.23.0",
       "license": "Apache 2.0 License",
@@ -1182,15 +865,6 @@
       "flagged": false
     },
     {
-      "package": "ultralytics-yolov5",
-      "version": "0.1.1",
-      "license": "Apache (shipped licence file: GPL)",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": true
-    },
-    {
       "package": "umap-learn",
       "version": "0.6.0",
       "license": "BSD",
@@ -1214,24 +888,6 @@
       "license": "BSD-3-Clause",
       "files": [
         "LICENSE.md"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "wcwidth",
-      "version": "0.9.5",
-      "license": "MIT License",
-      "files": [
-        "LICENSE"
-      ],
-      "flagged": false
-    },
-    {
-      "package": "werkzeug",
-      "version": "3.1.9",
-      "license": "BSD-3-Clause",
-      "files": [
-        "LICENSE.txt"
       ],
       "flagged": false
     }

@@ -70,49 +70,54 @@ More: `figures/p1_location_grid.png` (backgrounds differ), `p3_preprocessing.png
 Does the crop model still work on real trail-camera **video** from cameras and places it has never seen? The video stage runs the same pipeline as the Phase 6 crop model on public video clips:
 
 ```
-video -> sample 1 frame per second -> MegaDetector v5a (boxes with conf >= 0.2, same as training)
+video -> sample 1 frame per second -> MegaDetector v6 (MDV6-apa-rtdetr-c, boxes with conf >= 0.2)
       -> highest-confidence box + 10% margin, padded to 224x224 -> DINOv2-small -> the same linear probe
-      -> average the class probabilities over frames with a detection = one answer per clip (one visit)
+      -> drop frames whose crop the probe calls "empty" (a false detection)
+      -> average the class probabilities over the remaining frames = one answer per clip (one visit)
 ```
 
-The probe is refit from the stored Phase 4 crop embeddings with the C it chose then, and the script checks that it reproduces the saved Phase 4 probabilities exactly. Each clip is put in one of three tiers: **tier 1**, a training species on a new camera; **tier 2**, a related species that maps to a training class (a toucan is a "bird", an Australian wild dog is a "dog"); **tier 3**, a species outside the 13 classes (bear, wolf, mountain lion, badger), where the model must still pick one of its classes. For tier 3 we record whether that forced answer is a sensible relative and whether confidence is low enough for a cut-off to say "not sure".
+The probe is the Phase 4 crop probe ("b"), exported to [models/probe_b_crop.npz](models/probe_b_crop.npz) as plain arrays. The export checks that it reproduces the saved Phase 4 probabilities (max difference about 1e-6).
+
+**Detector.** The video stage uses MegaDetector v6 in its Apache-2.0 RT-DETR variant. The classifier was trained on boxes from MegaDetector v5a, but v5a's weight licence is unclear and its inference code is GPL-3.0, which rules it out for a public demo. MDv6 runs about 7× faster on CPU (0.2 s against 1.4 s per frame). On frames with an animal the two detectors give nearly the same boxes and confidences. Unlike v5a, MDv6 also boxes title cards and logos in edited clips, so the vote drops frames whose crop the probe calls "empty". That rule was added after seeing this failure, and it leaves the v5a result unchanged. Both detectors are scored on the same clips below. v5a can still be run with `CAMERATRAP_DETECTOR=mdv5a` after `pip install megadetector`. Each clip is put in one of three tiers: **tier 1**, a training species on a new camera; **tier 2**, a related species that maps to a training class (a toucan is a "bird", an Australian wild dog is a "dog"); **tier 3**, a species outside the 13 classes (bear, wolf, mountain lion, badger), where the model must still pick one of its classes. For tier 3 we record whether that forced answer is a sensible relative and whether confidence is low enough for a cut-off to say "not sure".
 
 <!-- VIDEO_TABLE:START -->
-Video test, 23 clips from 13 sites, one visit per clip, 1 frame/s (`results/video_eval_1fps.json`). Accuracy with 95% site-cluster bootstrap intervals.
+Video test, 23 clips from 13 sites, one visit per clip, 1 frame/s, detector mdv6 (`results/video_eval_1fps_mdv6.json`). Accuracy with 95% site-cluster bootstrap intervals.
 
 | Clips | n | Accuracy [95% CI] |
 |---|---|---|
-| Known species, all (tier 1 + 2) | 16 | 0.88 [0.71, 1.00] |
-| Tier 1: training species, new camera | 11 | 0.82 [0.57, 1.00] |
-| Tier 2: related species mapped to a class | 5 | 1.00 [1.00, 1.00] |
-| Known species, low risk of sharing the training camera network | 12 | 0.83 [0.62, 1.00] |
+| Known species, all (tier 1 + 2) | 16 | 0.69 [0.38, 0.87] |
+| Tier 1: training species, new camera | 11 | 0.64 [0.17, 0.86] |
+| Tier 2: related species mapped to a class | 5 | 0.80 [0.57, 1.00] |
+| Known species, low risk of sharing the training camera network | 12 | 0.67 [0.38, 0.86] |
+| Known species, all, with the legacy MegaDetector v5a (the detector behind the training crops) | 16 | 0.88 [0.71, 1.00] |
 
-Unknown species (tier 3, n = 7): the forced answer was a sensible relative in 0.71 [0.40, 1.00] of clips; median confidence 0.48 (known species: 0.60 when right, 0.31 when wrong).
+Unknown species (tier 3, n = 7): the forced answer was a sensible relative in 0.71 [0.40, 1.00] of clips; median confidence 0.52 (known species: 0.80 when right, 0.33 when wrong).
 
 | Confidence cut-off | Known, correct, flagged | Known, wrong, flagged | Unknown species flagged |
 |---|---|---|---|
-| < 0.3 | 14% | 0% | 14% |
-| < 0.4 | 29% | 100% | 29% |
-| < 0.5 | 29% | 100% | 57% |
-| < 0.6 | 50% | 100% | 57% |
-| < 0.7 | 64% | 100% | 57% |
-| < 0.8 | 64% | 100% | 100% |
+| < 0.3 | 0% | 40% | 14% |
+| < 0.4 | 9% | 100% | 29% |
+| < 0.5 | 18% | 100% | 43% |
+| < 0.6 | 27% | 100% | 71% |
+| < 0.7 | 45% | 100% | 71% |
+| < 0.8 | 55% | 100% | 100% |
 <!-- VIDEO_TABLE:END -->
 
 How to read this:
 - **The sample is small.** With 23 clips the intervals are wide, and a perfect score on a handful of clips gives a degenerate interval ([1.00, 1.00] means "too few clips to show any spread", not "certain"). Six raccoon clips come from two sites. Read these numbers as a sanity check that the pipeline works on video, not as a measured accuracy comparable to the image results above.
 - **Overlap with the training cameras.** CCT images were collected by the NPS (Santa Monica Mountains) and the USGS in southern California. No test video is in CCT, which contains only stills, but clips from those programmes could come from cameras the model has seen. Each clip carries a `cct_overlap_risk` flag (high: Santa Monica Mountains NPS; medium: other USGS southern-California footage; low: anywhere else), and the table reports the low-risk subset separately.
 - **Confidence helps, but not enough.** Wrong answers on known species had low confidence, but close relatives of a training class (wolf → dog, mountain lion → bobcat, badger → skunk) were often answered confidently. A plain cut-off cannot catch those.
+- **MDv6 against v5a.** The gap between the two detectors comes from three borderline clips (a bobcat, a toucan, a coyote) that both detectors answered with low confidence (about 0.2 to 0.36); with MDv6 they tip to the wrong class. The intervals overlap heavily. A plausible cause is that the probe learned from v5a-style boxes; refitting the probe on MDv6 crops of the training images would test this. The detector threshold was not tuned on these clips.
 - **Missing classes.** No openly licensed clips were found yet for opossum, rabbit, rodent, cat, car or empty.
 
 Every clip is public domain or Creative Commons. Sources, authors, licences and checksums are in [results/video_clips.csv](results/video_clips.csv). The videos themselves are not in this repo.
 
-**Try it on your own video.** `python scripts/demo_app.py` opens a local page: upload a clip and get it back with boxes and labels drawn on each frame, plus the per-clip answer. `python scripts/15_video_predict.py --source 0 --show` does the same live from a webcam.
+**Try it on your own video.** `python scripts/demo_app.py` opens the demo locally: pick an example or upload a clip, and get it back with a box, species and confidence on each analysed frame, plus the per-clip answer. The same app (`space/app.py`) is built for Hugging Face Spaces with `python scripts/build_space.py`. `python scripts/15_video_predict.py --source 0 --show` runs live from a webcam.
 
 ## Limitations
 
 - One backbone (DINOv2-small), one classifier (linear probe), one seed. The conclusions are about this setup.
-- **MegaDetector was not run by me for the image results.** I used the detections LILA published for this dataset (MDv5a), joined by file name; I did not verify them against a local run, and I did not check whether MegaDetector's own training data overlapped these cameras. (The video test does run MDv5a locally; see [LICENSES_AND_ATTRIBUTION.md](LICENSES_AND_ATTRIBUTION.md) for the open question about its weight licence.)
+- **MegaDetector was not run by me for the image results.** I used the detections LILA published for this dataset (MDv5a), joined by file name; I did not verify them against a local run, and I did not check whether MegaDetector's own training data overlapped these cameras. (The video test runs MegaDetector v6 locally; v5a was run locally only for the side-by-side comparison. See [LICENSES_AND_ATTRIBUTION.md](LICENSES_AND_ATTRIBUTION.md).)
 - The headline unseen-camera test covers nine cameras (CCT20 `trans_test`; the tenth unseen camera is reported separately), a small sample of "new cameras"; the gap varies a lot between them.
 - A 50% sample of bursts was used (storage and CPU time), and the benchmark has far fewer empty frames than the full dataset.
 - The seen-camera test still leaks lighting and scene context (test bursts are usually close in time to training bursts at the same camera), so the true seen/unseen gap is somewhat smaller than the (b)-(c) difference shows.
@@ -123,11 +128,11 @@ Every clip is public domain or Creative Commons. Sources, authors, licences and 
 ## What I would do next
 
 1. Fine-tune end-to-end on a GPU, and compare with camera-invariance training (augmentation that mixes backgrounds, domain-adversarial or invariant-risk objectives).
-2. Run MegaDetector (or a licence-clear v6 detector) locally on full-resolution frames, tune the threshold, and use all boxes rather than the top one.
+2. Run MegaDetector v6 locally on the full-resolution training frames, refit the probe on those crops (so detector and classifier match), tune the threshold on validation data, and use all boxes rather than the top one.
 3. Leave-one-camera-out evaluation for tighter estimates of the new-camera gap; add a second backbone (supervised ResNet-50, CLIP) and several seeds.
 4. Test-time adaptation using a new camera's unlabelled images, and calibrated abstention ("send to a human") for low-confidence frames.
 5. Mask the timestamp banner and see whether the seen-camera score moves.
-6. Grow the video test to 60–80 clips with one or two clips per camera, fill the missing classes (opossum, rabbit, rodent, cat, car, empty), and switch the video stage to a licence-clear MegaDetector v6 model.
+6. Grow the video test to 60–80 clips with one or two clips per camera, fill the missing classes (opossum, rabbit, rodent, cat, car, empty).
 
 ## Dataset
 Caltech Camera Traps, "CCT20" ECCV-2018 benchmark split (Beery, Van Horn, Perona, *Recognition in Terra Incognita*, ECCV 2018), hosted by LILA BC: https://lila.science/datasets/caltech-camera-traps. The benchmark split has 57,864 images from 20 camera locations (10 "cis"/seen, 10 "trans"/unseen); the full dataset has 243,100 images.
@@ -138,7 +143,7 @@ Caltech Camera Traps, "CCT20" ECCV-2018 benchmark split (Beery, Van Horn, Perona
 - Version string inside the files: "Caltech Camera Traps - ECCV18". Files fetched 2026-11-19.
 - Used here: a seeded 50% sample of bursts (28,943 images, 2.17 GB after shrinking to max side 640 px). Details: `results/phase1_sampling.json`.
 
-**Licence and citation.** The data are released under the Community Data License Agreement, Permissive, Version 1.0 (CDLA-Permissive-1.0; text in `licenses/CDLA-Permissive-1.0.md`). Please cite: Sara Beery, Grant Van Horn, Pietro Perona. *Recognition in Terra Incognita.* ECCV 2018. Images are credited to the NPS/USGS and the rights holders named in the metadata. The raw images are not in this repo; figures contain modified excerpts under the same terms. All licences, attribution, and what is and is not redistributed (including an open question about the MegaDetector v5a weights, which only the video stage runs, locally, without redistributing them): [LICENSES_AND_ATTRIBUTION.md](LICENSES_AND_ATTRIBUTION.md); packages: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md). No licence has been chosen yet for this repository's own code.
+**Licence and citation.** The data are released under the Community Data License Agreement, Permissive, Version 1.0 (CDLA-Permissive-1.0; text in `licenses/CDLA-Permissive-1.0.md`). Please cite: Sara Beery, Grant Van Horn, Pietro Perona. *Recognition in Terra Incognita.* ECCV 2018. Images are credited to the NPS/USGS and the rights holders named in the metadata. The raw images are not in this repo; figures contain modified excerpts under the same terms. All licences, attribution, and what is and is not redistributed (including an open question about the MegaDetector v5a weights; the video stage uses the Apache-2.0 MegaDetector v6 instead): [LICENSES_AND_ATTRIBUTION.md](LICENSES_AND_ATTRIBUTION.md); packages: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md). No licence has been chosen yet for this repository's own code.
 
 ## Reproduce
 Windows, Python 3.12, CPU only. Run from the repo root, in this order. `data/` is not in git. Total compute is a few hours on 8 cores, mostly the three embedding passes.
@@ -172,9 +177,10 @@ python scripts/09_evaluate.py --feature mask
 python scripts/11b_control_mask.py                    # phase 6 control: background removal vs magnification
 python scripts/13_collect_licenses.py                 # licences of all pinned packages -> THIRD_PARTY_LICENSES.md (per-package licence files go to licenses/third_party/, not committed)
 python scripts/12_make_tables.py                      # phase 7: fills the results table above from results/*.json
-# video stage (needs data/models/md_v5a.0.0.pt from https://github.com/agentmorris/MegaDetector/releases/download/v5.0/md_v5a.0.0.pt)
+# video stage (MegaDetector v6 weights, 322 MB, download from Zenodo on first run; the probe is models/probe_b_crop.npz)
 python scripts/video_add_clips.py batch.json          # download + log test clips (fields: see the script; sources in results/video_clips.csv)
 python scripts/15_video_predict.py                    # run the pipeline on every logged clip (~1.4 s per frame on CPU)
 python scripts/16_video_evaluate.py                   # per-visit accuracy with site-cluster bootstrap CIs; fills the video table above
-python scripts/demo_app.py                            # optional: local upload page that returns the video with boxes drawn on
+python scripts/build_space.py                         # optional: assemble the web demo (app, probe, MDv6 weights, example results) in build/space/
+python scripts/demo_app.py                            # optional: run the web demo locally (http://127.0.0.1:7860)
 ```

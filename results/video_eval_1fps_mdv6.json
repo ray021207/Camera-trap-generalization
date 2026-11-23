@@ -1,5 +1,5 @@
 {
-  "fps": "1fps",
+  "fps": "1fps_mdv6",
   "n_clips": 23,
   "n_sites": 13,
   "n_boot": 10000,
@@ -18,54 +18,54 @@
   "known": {
     "all": {
       "n": 16,
-      "mean": 0.875,
+      "mean": 0.6875,
       "ci": [
-        0.7058823529411765,
-        1.0
+        0.38461538461538464,
+        0.8666666666666667
       ],
       "n_clusters": 9
     },
     "tier1": {
       "n": 11,
-      "mean": 0.8181818181818182,
+      "mean": 0.6363636363636364,
       "ci": [
-        0.5714285714285714,
-        1.0
+        0.16666666666666666,
+        0.8571428571428571
       ],
       "n_clusters": 6
     },
     "tier2": {
       "n": 5,
-      "mean": 1.0,
+      "mean": 0.8,
       "ci": [
-        1.0,
+        0.5714285714285714,
         1.0
       ],
       "n_clusters": 4
     },
     "low_overlap_risk": {
       "n": 12,
-      "mean": 0.8333333333333334,
+      "mean": 0.6666666666666666,
       "ci": [
-        0.625,
-        1.0
+        0.375,
+        0.8571428571428571
       ],
       "n_clusters": 7
     },
-    "median_conf_correct": 0.6022255000000001,
-    "median_conf_wrong": 0.3115393956521739,
+    "median_conf_correct": 0.797271,
+    "median_conf_wrong": 0.33158210526315807,
     "per_class": {
       "bird": {
         "n": 2,
-        "correct": 2
+        "correct": 1
       },
       "bobcat": {
         "n": 3,
-        "correct": 3
+        "correct": 2
       },
       "coyote": {
         "n": 2,
-        "correct": 2
+        "correct": 1
       },
       "dog": {
         "n": 1,
@@ -89,13 +89,31 @@
         "clip_id": "v053",
         "true_species": "raccoon",
         "pred": "squirrel",
-        "conf": 0.3223623913043479
+        "conf": 0.33158210526315807
       },
       {
         "clip_id": "v056",
         "true_species": "raccoon",
         "pred": "bobcat",
-        "conf": 0.3007164
+        "conf": 0.3321122580645161
+      },
+      {
+        "clip_id": "v057",
+        "true_species": "bobcat",
+        "pred": "squirrel",
+        "conf": 0.34751
+      },
+      {
+        "clip_id": "v064",
+        "true_species": "red-breasted toucan",
+        "pred": "squirrel",
+        "conf": 0.28021741935483874
+      },
+      {
+        "clip_id": "v067",
+        "true_species": "coyote",
+        "pred": "skunk",
+        "conf": 0.21636500000000003
       }
     ]
   },
@@ -111,55 +129,55 @@
       ],
       "n_clusters": 5
     },
-    "median_conf": 0.47811473684210526,
+    "median_conf": 0.52193875,
     "answers": [
       {
         "clip_id": "v049",
         "true_species": "gray fox",
         "pred": "coyote",
-        "conf": 0.34944100000000006,
+        "conf": 0.40606200000000003,
         "sensible_classes": "coyote|dog"
       },
       {
         "clip_id": "v050",
         "true_species": "American black bear",
-        "pred": "coyote",
-        "conf": 0.2599207142857143,
+        "pred": "bobcat",
+        "conf": 0.23476214285714284,
         "sensible_classes": ""
       },
       {
         "clip_id": "v059",
         "true_species": "mountain lion (kitten)",
         "pred": "bobcat",
-        "conf": 0.41362928571428575,
+        "conf": 0.3828577272727273,
         "sensible_classes": "bobcat|cat"
       },
       {
         "clip_id": "v060",
         "true_species": "mountain lion",
         "pred": "bobcat",
-        "conf": 0.7427881818181817,
+        "conf": 0.763370909090909,
         "sensible_classes": "bobcat|cat"
       },
       {
         "clip_id": "v061",
         "true_species": "gray wolf",
         "pred": "dog",
-        "conf": 0.7462335714285716,
+        "conf": 0.7084672413793103,
         "sensible_classes": "coyote|dog"
       },
       {
         "clip_id": "v062",
         "true_species": "gray wolf",
         "pred": "coyote",
-        "conf": 0.47811473684210526,
+        "conf": 0.52193875,
         "sensible_classes": "coyote|dog"
       },
       {
         "clip_id": "v065",
         "true_species": "European badger",
         "pred": "skunk",
-        "conf": 0.7182583333333333,
+        "conf": 0.5553716666666667,
         "sensible_classes": ""
       }
     ]
@@ -167,37 +185,37 @@
   "confidence_cutoff_sweep": [
     {
       "threshold": 0.3,
-      "known_correct_flagged": 0.14285714285714285,
-      "known_wrong_flagged": 0.0,
+      "known_correct_flagged": 0.0,
+      "known_wrong_flagged": 0.4,
       "unknown_flagged": 0.14285714285714285
     },
     {
       "threshold": 0.4,
-      "known_correct_flagged": 0.2857142857142857,
+      "known_correct_flagged": 0.09090909090909091,
       "known_wrong_flagged": 1.0,
       "unknown_flagged": 0.2857142857142857
     },
     {
       "threshold": 0.5,
-      "known_correct_flagged": 0.2857142857142857,
+      "known_correct_flagged": 0.18181818181818182,
       "known_wrong_flagged": 1.0,
-      "unknown_flagged": 0.5714285714285714
+      "unknown_flagged": 0.42857142857142855
     },
     {
       "threshold": 0.6,
-      "known_correct_flagged": 0.5,
+      "known_correct_flagged": 0.2727272727272727,
       "known_wrong_flagged": 1.0,
-      "unknown_flagged": 0.5714285714285714
+      "unknown_flagged": 0.7142857142857143
     },
     {
       "threshold": 0.7,
-      "known_correct_flagged": 0.6428571428571429,
+      "known_correct_flagged": 0.45454545454545453,
       "known_wrong_flagged": 1.0,
-      "unknown_flagged": 0.5714285714285714
+      "unknown_flagged": 0.7142857142857143
     },
     {
       "threshold": 0.8,
-      "known_correct_flagged": 0.6428571428571429,
+      "known_correct_flagged": 0.5454545454545454,
       "known_wrong_flagged": 1.0,
       "unknown_flagged": 1.0
     }

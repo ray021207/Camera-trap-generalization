@@ -20,16 +20,25 @@ What CDLA-Permissive-1.0 asks, and how this repo complies:
 - The CCT20 split metadata and images are fetched by script from LILA's public bucket at run time; nothing is re-hosted.
 
 ## 2. Animal detections: MegaDetector v5a results published by LILA
-The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech-camera-traps_mdv5a.0.0_results.filtered_rde_0.150_0.850_10_0.300.json.zip` (https://lila.science/megadetector-results-for-camera-trap-datasets). **MegaDetector was not downloaded or run in this project**; we only read the box coordinates and confidences that LILA published.
+The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech-camera-traps_mdv5a.0.0_results.filtered_rde_0.150_0.850_10_0.300.json.zip` (https://lila.science/megadetector-results-for-camera-trap-datasets). **For the image results MegaDetector was not run in this project**; we only read the box coordinates and confidences that LILA published.
 
 | | |
 |---|---|
 | MegaDetector code | MIT licence (https://github.com/agentmorris/MegaDetector ; code written on or before 2023-04-28 is copyright Microsoft). Text: `licenses/MegaDetector-repo-MIT.txt`. We do not use or ship this code. |
-| MegaDetector **v5a weights** | **Unclear / not MIT.** Microsoft's model zoo lists MegaDetectorV5a under **AGPL-3.0**; the Hugging Face model card for `agentmorris/megadetector` lists a custom "other" licence and notes the weights were trained with a GPL-licensed YOLOv5 framework. The sources disagree and we did not resolve it. We neither download, run nor redistribute the weights, so no weight licence is exercised here. |
+| MegaDetector **v5a weights** | **Unclear / not MIT.** Microsoft's model zoo lists MegaDetectorV5a under **AGPL-3.0**; the Hugging Face model card for `agentmorris/megadetector` lists a custom "other" licence and notes the weights were trained with a GPL-licensed YOLOv5 framework. The sources disagree and we did not resolve it. The image pipeline does not use the weights. The video stage ran them once locally for a comparison (see below); they are not redistributed. |
 | The LILA results JSON | The results page states **no licence or terms** for these files (checked 2026-11-19). We read it locally (`data/md/`, gitignored) and do **not redistribute** it or commit it. Only derived metrics (`results/*.json`) and figures showing crops are published. If you want to redistribute the detections, or run the MDv5 weights yourself, check the terms first; the newer MegaDetector v6 "MIT" variants are a licence-clear alternative. |
 | Cite | Sara Beery, Dan Morris, Siyu Yang. *Efficient Pipeline for Camera Trap Image Review.* arXiv:1907.06772, 2019. And credit LILA BC for hosting and running the detector on this dataset. |
 
-**Video stage (added 2026-11-22): MegaDetector v5a is run locally.** The image results above still use only LILA's published boxes. The video test (`src/video.py`, `scripts/15_video_predict.py`, `scripts/demo_app.py`) downloads `md_v5a.0.0.pt` from the MegaDetector GitHub release (md5 `ec1d7603ec8cf642d6e0cd008ba2be8c`, verified) into `data/models/` (gitignored) and runs it on CPU through the `megadetector` package (MIT). This uses the weights whose licence is unclear (see the row above). They are used unmodified for non-commercial research inference and are **not redistributed**. Before redistributing them, offering the demo as a public service, or any commercial use, resolve the weight licence or switch to a MegaDetector v6 "MIT" model. `megadetector` loads the weights through the `ultralytics-yolov5` package, which ships a **GPL-3.0** licence file (see section 4).
+**Video stage (added 2026-11-22).** The image results above still use only LILA's published boxes. The video stage uses **MegaDetector v6** instead (section 2b). For a one-off side-by-side comparison, v5a was also run locally once (`md_v5a.0.0.pt` from the MegaDetector GitHub release, md5 `ec1d7603ec8cf642d6e0cd008ba2be8c`, through the `megadetector` package, which pulls in `ultralytics-yolov5`, whose shipped licence file is **GPL-3.0**). Those packages are **not** in `requirements.txt` and the v5a weights are not redistributed; the comparison results are in `results/video_eval_1fps_mdv5a.json`.
+
+## 2b. Video-stage detector: MegaDetector v6 (MDV6-apa-rtdetr-c)
+| | |
+|---|---|
+| Weights | `MDV6-apa-rtdetr-c.pth` from the Pytorch-Wildlife model-weights record on Zenodo, https://doi.org/10.5281/zenodo.15398270 (md5 `3992888e26f627ee5a4ff9f116be97c3`, checked on download). Downloaded at run time into `data/models/` (gitignored). |
+| Licence | Zenodo record: **CC BY 4.0**. Microsoft's MegaDetector model zoo (https://github.com/microsoft/MegaDetector) lists this variant as **Apache-2.0**. Both permit use, redistribution and hosting with attribution. |
+| Code | RT-DETRv2 by lyuwenyu (https://github.com/lyuwenyu/RT-DETR, **Apache-2.0**), copied with the MegaDetector configs from Microsoft's Pytorch-Wildlife package (**MIT**) into `src/third_party/rtdetrv2_pytorch/`. Notice and the one change made: [src/third_party/NOTICE.md](src/third_party/NOTICE.md). The `PytorchWildlife` package itself is not installed, because it depends on AGPL-3.0 `ultralytics`. |
+| Cite / credit | Microsoft AI for Good Lab, Pytorch-Wildlife (Zhongqi Miao et al., *Pytorch-Wildlife: A Collaborative Deep Learning Framework for Conservation*, arXiv:2405.12930). RT-DETRv2: Wenyu Lv et al., arXiv:2407.17140. |
+
 
 ## 3. Pretrained model: DINOv2-small
 | | |
@@ -41,12 +50,9 @@ The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech
 We rely on the Apache-2.0 licence stated on that model card. Weights are used frozen and unmodified.
 
 ## 4. Python packages
-122 pinned packages (`requirements.txt`; 64 before the video stage added `megadetector`, `opencv-python`, `gradio`, `imageio-ffmpeg` and their dependencies). `scripts/13_collect_licenses.py` reads each package's declared licence, copies the licence files it ships into `licenses/third_party/` (regenerate locally; that folder is not committed), and also checks the title of each shipped licence file, because declared metadata can be wrong. Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
-- The packages used by the image pipeline (Phases 0–7) are all permissive (MIT, BSD, Apache-2.0, PSF, ISC, MIT-CMU/HPND-style, Zlib and combinations of these).
-- **Copyleft in the video stage:**
-  - `ultralytics-yolov5` declares "Apache" in its metadata but ships a **GPL-3.0** licence file (upstream YOLOv5 is AGPL-3.0 in recent versions). It is pulled in by `megadetector` to run the v5a weights. It is not modified or redistributed here.
-  - `imageio-ffmpeg` (BSD-2-Clause) bundles an **ffmpeg executable built with `--enable-gpl --enable-version3` (GPLv3)**. We call it as a separate program to encode MP4s and do not redistribute it.
-  - Whoever picks a licence for this repo's own code (section 5) should note that the video scripts import GPL code at run time. Keeping the image pipeline permissive and treating the video stage as optional, or moving to a MegaDetector v6 MIT model, avoids the question.
+84 pinned packages (`requirements.txt`; 64 before the video stage added `opencv-python`, `gradio`, `imageio-ffmpeg` and their dependencies). `scripts/13_collect_licenses.py` reads each package's declared licence, copies the licence files it ships into `licenses/third_party/` (regenerate locally; that folder is not committed), and also checks the title of each shipped licence file, because declared metadata can be wrong (it caught `ultralytics-yolov5` declaring Apache while shipping GPL-3.0; that package is no longer a dependency). Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
+- All pinned packages declare permissive licences (MIT, BSD, Apache-2.0, PSF, ISC, MIT-CMU/HPND-style, Zlib and combinations), and no shipped licence file is GPL, AGPL or LGPL.
+- One copyleft component remains, as a separate program: `imageio-ffmpeg` (BSD-2-Clause) bundles an **ffmpeg executable built with `--enable-gpl --enable-version3` (GPLv3)**. The video stage calls it as an external process to encode MP4s; it is not linked into our code and not redistributed here. Any other ffmpeg build (for example the system ffmpeg on a hosting service) works too.
 - Two packages are under MPL-2.0 (file-level copyleft): `certifi` and `tqdm` (dual MPL-2.0 AND MIT). We use them unmodified as installed dependencies and do not redistribute them.
 - `tokenizers` (Apache-2.0) ships no licence file in its metadata; the Apache-2.0 text in `licenses/` applies.
 - The packages themselves are not redistributed in this repo; only the version pins are.

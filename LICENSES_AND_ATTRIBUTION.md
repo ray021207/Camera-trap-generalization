@@ -29,6 +29,8 @@ The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech
 | The LILA results JSON | The results page states **no licence or terms** for these files (checked 2026-11-19). We read it locally (`data/md/`, gitignored) and do **not redistribute** it or commit it. Only derived metrics (`results/*.json`) and figures showing crops are published. If you want to redistribute the detections, or run the MDv5 weights yourself, check the terms first; the newer MegaDetector v6 "MIT" variants are a licence-clear alternative. |
 | Cite | Sara Beery, Dan Morris, Siyu Yang. *Efficient Pipeline for Camera Trap Image Review.* arXiv:1907.06772, 2019. And credit LILA BC for hosting and running the detector on this dataset. |
 
+**Video stage (added 2026-11-22): MegaDetector v5a is run locally.** The image results above still use only LILA's published boxes. The video test (`src/video.py`, `scripts/15_video_predict.py`, `scripts/demo_app.py`) downloads `md_v5a.0.0.pt` from the MegaDetector GitHub release (md5 `ec1d7603ec8cf642d6e0cd008ba2be8c`, verified) into `data/models/` (gitignored) and runs it on CPU through the `megadetector` package (MIT). This uses the weights whose licence is unclear (see the row above). They are used unmodified for non-commercial research inference and are **not redistributed**. Before redistributing them, offering the demo as a public service, or any commercial use, resolve the weight licence or switch to a MegaDetector v6 "MIT" model. `megadetector` loads the weights through the `ultralytics-yolov5` package, which ships a **GPL-3.0** licence file (see section 4).
+
 ## 3. Pretrained model: DINOv2-small
 | | |
 |---|---|
@@ -39,12 +41,21 @@ The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech
 We rely on the Apache-2.0 licence stated on that model card. Weights are used frozen and unmodified.
 
 ## 4. Python packages
-64 pinned packages (`requirements.txt`). `scripts/13_collect_licenses.py` read each package's declared licence and copied the licence files it ships into `licenses/third_party/` (regenerate locally; that folder is not committed). Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
-- All are permissive (MIT, BSD, Apache-2.0, PSF, ISC, MIT-CMU/HPND-style, Zlib and combinations of these). **No GPL, AGPL, LGPL or non-commercial package** was found (the script flags those; none flagged).
+122 pinned packages (`requirements.txt`; 64 before the video stage added `megadetector`, `opencv-python`, `gradio`, `imageio-ffmpeg` and their dependencies). `scripts/13_collect_licenses.py` reads each package's declared licence, copies the licence files it ships into `licenses/third_party/` (regenerate locally; that folder is not committed), and also checks the title of each shipped licence file, because declared metadata can be wrong. Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
+- The packages used by the image pipeline (Phases 0–7) are all permissive (MIT, BSD, Apache-2.0, PSF, ISC, MIT-CMU/HPND-style, Zlib and combinations of these).
+- **Copyleft in the video stage:**
+  - `ultralytics-yolov5` declares "Apache" in its metadata but ships a **GPL-3.0** licence file (upstream YOLOv5 is AGPL-3.0 in recent versions). It is pulled in by `megadetector` to run the v5a weights. It is not modified or redistributed here.
+  - `imageio-ffmpeg` (BSD-2-Clause) bundles an **ffmpeg executable built with `--enable-gpl --enable-version3` (GPLv3)**. We call it as a separate program to encode MP4s and do not redistribute it.
+  - Whoever picks a licence for this repo's own code (section 5) should note that the video scripts import GPL code at run time. Keeping the image pipeline permissive and treating the video stage as optional, or moving to a MegaDetector v6 MIT model, avoids the question.
 - Two packages are under MPL-2.0 (file-level copyleft): `certifi` and `tqdm` (dual MPL-2.0 AND MIT). We use them unmodified as installed dependencies and do not redistribute them.
 - `tokenizers` (Apache-2.0) ships no licence file in its metadata; the Apache-2.0 text in `licenses/` applies.
 - The packages themselves are not redistributed in this repo; only the version pins are.
 - Key scientific libraries worth citing if you build on this: PyTorch, scikit-learn (Pedregosa et al., JMLR 2011), UMAP (McInnes, Healy, Melville, arXiv:1802.03426).
+
+## 4b. Video test clips
+The video test uses public video clips, listed one per row in [results/video_clips.csv](results/video_clips.csv) with source page, file URL, author, credit, licence, licence URL and SHA-256. Licences used: public domain (USGS and NPS footage, including NPS clips mirrored on Wikimedia Commons and the Internet Archive) and Creative Commons (CC BY 4.0, CC BY-SA 4.0). The video files are kept locally in `data/video_test/` (gitignored) and are **not redistributed**. Some were re-encoded to save space (noted per clip, with the original's checksum). Nothing comes from Caltech Camera Traps. Clips from NPS Santa Monica Mountains or USGS southern California are flagged in `cct_overlap_risk`, because those programmes supplied the training images and could share cameras with them.
+
+Attribution for the CC-licensed clips is the `author` / `credit` column of that file, each with its licence link. Clips shown with YouTube's standard licence were not downloaded.
 
 ## 5. This repository's own code
 No licence has been chosen for the code and writing in this repo yet, so by default all rights are reserved by the author. Adding a licence (for example MIT) is a decision for the repository owner; none of the components above requires a particular one. Third-party licences above remain unchanged by that choice.

@@ -1,9 +1,9 @@
 {
   "expected_results_files_missing": [],
-  "n_json_files_in_results": 24,
-  "folder_gb_excluding_dot_git": 3.805,
-  "data_dir_gb": 2.646,
-  "venv_gb": 1.141,
+  "n_json_files_in_results": 26,
+  "folder_gb_excluding_dot_git": 4.736,
+  "data_dir_gb": 3.152,
+  "venv_gb": 1.564,
   "budget_gb": 6.0,
   "under_budget": true,
   "private_notes_all_phases_have_all_subheadings": true,
@@ -11,7 +11,7 @@
   "gitignore_has_required_entries": true,
   "tracked_files_with_ai_attribution_strings": [],
   "git_log_ai_attribution_hits": 0,
-  "n_commits": 11,
+  "n_commits": 12,
   "commit_authors": [
     "Reshma Panibhate <reshma.panibhate@gmail.com>"
   ]

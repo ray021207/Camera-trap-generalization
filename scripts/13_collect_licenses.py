@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src.common import ROOT, save_json
 
 FLAG = re.compile(r"GPL|AGPL|LGPL|NonCommercial|Non-Commercial|CC-BY-NC|SSPL|proprietary", re.I)
+TEXT_FLAG = re.compile(r"GNU (AFFERO |LESSER )?GENERAL PUBLIC LICENSE", re.I)
 
 
 def declared_license(meta):
@@ -58,6 +59,13 @@ def main():
                     dst.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy(src, dst)
                     copied.append(src.name)
+        # declared metadata can disagree with the licence text actually shipped (ultralytics-yolov5 declares
+        # "Apache" but ships GPL-3.0), so also scan the copied licence files for copyleft headers
+        abbrev = {"": "GPL", "AFFERO ": "AGPL", "LESSER ": "LGPL"}
+        text_hits = sorted({abbrev[(m.group(1) or "").upper()] for f in copied
+                            for m in TEXT_FLAG.finditer((out_dir / n / f).read_text(encoding="utf-8", errors="ignore")[:300])})   # title only: MPL-2.0 text names the GPL later on
+        if text_hits:
+            lic = f"{lic} (shipped licence file: {', '.join(text_hits)})"
         rows.append(dict(package=n, version=meta["Version"], license=lic, files=copied, flagged=bool(FLAG.search(lic))))
     # dataset attribution facts straight from the CCT20 metadata (rights_holder field and info block)
     import collections, json

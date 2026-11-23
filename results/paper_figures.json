@@ -1,0 +1,120 @@
+{
+  "input_variants": {
+    "rows": [
+      {
+        "row": "day frame",
+        "file": "59e43fd4-23d2-11e8-a6a3-ec086b02610b.jpg",
+        "label": "coyote",
+        "location": 61,
+        "detector_conf": 0.939,
+        "box_area_frac": 0.191961,
+        "predictions": {
+          "full": {
+            "pred": "coyote",
+            "conf": 0.9958872
+          },
+          "mask": {
+            "pred": "coyote",
+            "conf": 0.99894637
+          },
+          "crop": {
+            "pred": "coyote",
+            "conf": 0.9991844
+          }
+        }
+      },
+      {
+        "row": "night (IR) frame",
+        "file": "5a1e50fa-23d2-11e8-a6a3-ec086b02610b.jpg",
+        "label": "coyote",
+        "location": 61,
+        "detector_conf": 0.901,
+        "box_area_frac": 0.099802,
+        "predictions": {
+          "full": {
+            "pred": "coyote",
+            "conf": 0.94138336
+          },
+          "mask": {
+            "pred": "coyote",
+            "conf": 0.9986369
+          },
+          "crop": {
+            "pred": "coyote",
+            "conf": 0.9948966
+          }
+        }
+      },
+      {
+        "row": "small animal, unseen camera",
+        "file": "599d7b8b-23d2-11e8-a6a3-ec086b02610b.jpg",
+        "label": "rabbit",
+        "location": 46,
+        "detector_conf": 0.803,
+        "box_area_frac": 0.010830000000000001,
+        "predictions": {
+          "full": {
+            "pred": "raccoon",
+            "conf": 0.41036418
+          },
+          "mask": {
+            "pred": "skunk",
+            "conf": 0.30600527
+          },
+          "crop": {
+            "pred": "rabbit",
+            "conf": 0.7334794
+          }
+        }
+      }
+    ],
+    "small_animal_rule": "unseen_test, whole-frame and mask wrong, crop right, animal box conf > 0.8; 10th percentile of box area among candidates",
+    "n_candidates": 790
+  },
+  "video_pipeline": {
+    "clip": "v048",
+    "source": "https://www.usgs.gov/media/videos/animal-interactions-wind-energy-facilities-bobcat",
+    "license": "Public domain (USGS)",
+    "verdict": "bobcat",
+    "verdict_conf": 0.9785795215069484,
+    "n_frames": 15,
+    "n_animal_frames": 5,
+    "shown": [
+      {
+        "t": 2.0,
+        "detector_conf": 0.5082,
+        "top": "empty",
+        "top_prob": 0.8068,
+        "counted": false
+      },
+      {
+        "t": 5.0,
+        "detector_conf": 0.9681,
+        "top": "bobcat",
+        "top_prob": 0.9972,
+        "counted": true
+      },
+      {
+        "t": 6.01,
+        "detector_conf": 0.9647,
+        "top": "bobcat",
+        "top_prob": 0.9849,
+        "counted": true
+      },
+      {
+        "t": 8.01,
+        "detector_conf": 0.9856,
+        "top": "bobcat",
+        "top_prob": 0.9949,
+        "counted": true
+      },
+      {
+        "t": 9.01,
+        "detector_conf": 0.9672,
+        "top": "bobcat",
+        "top_prob": 0.972,
+        "counted": true
+      }
+    ]
+  }
+}

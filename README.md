@@ -54,6 +54,10 @@ Every number in this README is read from a file in `results/` written by a scrip
 
 ![gap before and after](figures/p6_gap_before_after.png)
 
+**The three inputs side by side: a tiny animal is missed on the whole frame and with the background greyed out, and found once the crop magnifies it** (`figures/p6_input_variants.png`)
+
+![input variants](figures/p6_input_variants.png)
+
 More: `figures/p1_location_grid.png` (backgrounds differ), `p3_preprocessing.png` (what each preprocessing step does), `p5_confusion_full.png`, `p5_failure_gallery_worst.png`, `p5_failure_categories.png`, `p6_class_change.png`.
 
 ## What I learned
@@ -79,6 +83,8 @@ video -> sample 1 frame per second -> MegaDetector v6 (MDV6-apa-rtdetr-c, boxes 
 The probe is the Phase 4 crop probe ("b"), exported to [models/probe_b_crop.npz](models/probe_b_crop.npz) as plain arrays. The export checks that it reproduces the saved Phase 4 probabilities (max difference about 1e-6).
 
 **Detector.** The video stage uses MegaDetector v6 in its Apache-2.0 RT-DETR variant. The classifier was trained on boxes from MegaDetector v5a, but v5a's weight licence is unclear and its inference code is GPL-3.0, which rules it out for a public demo. MDv6 runs about 7× faster on CPU (0.2 s against 1.4 s per frame). On frames with an animal the two detectors give nearly the same boxes and confidences. Unlike v5a, MDv6 also boxes title cards and logos in edited clips, so the vote drops frames whose crop the probe calls "empty". That rule was added after seeing this failure, and it leaves the v5a result unchanged. Both detectors are scored on the same clips below. v5a can still be run with `CAMERATRAP_DETECTOR=mdv5a` after `pip install megadetector`. Each clip is put in one of three tiers: **tier 1**, a training species on a new camera; **tier 2**, a related species that maps to a training class (a toucan is a "bird", an Australian wild dog is a "dog"); **tier 3**, a species outside the 13 classes (bear, wolf, mountain lion, badger), where the model must still pick one of its classes. For tier 3 we record whether that forced answer is a sensible relative and whether confidence is low enough for a cut-off to say "not sure".
+
+![video pipeline](figures/p8_video_pipeline.png)
 
 <!-- VIDEO_TABLE:START -->
 Video test, 23 clips from 13 sites, one visit per clip, 1 frame/s, detector mdv6 (`results/video_eval_1fps_mdv6.json`). Accuracy with 95% site-cluster bootstrap intervals.
@@ -179,6 +185,7 @@ python scripts/09_evaluate.py --feature mask
 python scripts/11b_control_mask.py                    # phase 6 control: background removal vs magnification
 python scripts/13_collect_licenses.py                 # licences of all pinned packages -> THIRD_PARTY_LICENSES.md (per-package licence files go to licenses/third_party/, not committed)
 python scripts/12_make_tables.py                      # phase 7: fills the results table above from results/*.json
+python scripts/17_paper_figures.py                    # figures of the three inputs (p6_input_variants) and of the video stage (p8_video_pipeline)
 # video stage (MegaDetector v6 weights, 322 MB, download from Zenodo on first run; the probe is models/probe_b_crop.npz)
 python scripts/video_add_clips.py batch.json          # download + log test clips (fields: see the script; sources in results/video_clips.csv)
 python scripts/15_video_predict.py                    # run the pipeline on every logged clip (~1.4 s per frame on CPU)

@@ -9,6 +9,8 @@
 - [x] Phase 5 — evaluation + failure gallery (results/phase5_*.json)
 - [x] Phase 6 — MegaDetector crops + mask control (results/phase6_*.json)
 - [x] Phase 7 — write-up, licences, final checks (results/phase7_final_checks.json)
+- [x] Web demo — in-browser (onnxruntime-web) on the portfolio project page; models on huggingface.co/ray0987/camera-trap-demo-models (scripts/export_onnx.py, scripts/build_web_demo.py, web/)
+- [x] Paper figures for the three inputs and the video stage (scripts/17_paper_figures.py); the local paper (paper/, gitignored) has a video-stage section
 - [~] Video stage (preliminary) — pipeline, upload demo, 23 public clips, evaluation (results/video_*.json, results/video_clips.csv). Needs more clips: target 60–80, one or two per camera, and the missing classes opossum, rabbit, rodent, cat, car, empty.
 
 ## Next

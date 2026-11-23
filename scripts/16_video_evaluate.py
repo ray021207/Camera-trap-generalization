@@ -55,7 +55,7 @@ def fmt(r):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fps", type=float, default=1.0)
-    ap.add_argument("--detector", default="mdv6", choices=["mdv6", "mdv5a"])
+    ap.add_argument("--detector", default="mdv6", choices=["mdv6", "mdv5a", "mdv6onnx"])
     a = ap.parse_args()
     tag = f"{a.fps:g}fps_{a.detector}"
     rng = np.random.default_rng(SEED)

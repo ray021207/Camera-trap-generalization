@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Camera-trap species demo</title>
+<link rel="stylesheet" href="camera-trap-demo.css">
+<style>
+  body { margin: 0; background: #f2eee3; font-family: system-ui, sans-serif; color: #17342c; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font: 400 34px/1.15 Georgia, serif; margin: 8px 0 6px; }
+  p.lead { color: #415c4d; line-height: 1.6; margin: 0 0 8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Camera-trap species demo</h1>
+  <p class="lead">Standalone test page for the in-browser demo. Serve this folder (for example <code>python -m http.server</code>) and open it.</p>
+  <div id="ct-demo"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/ort.wasm.min.js" integrity="sha384-epp8GDQUoLKx5qHa6SoDHKv7fSHILsEYk4uEsHdPRBztXEIVWCe/lhhrQJUBMZcf" crossorigin="anonymous"></script>
+<script src="camera-trap-demo.js" data-base="https://huggingface.co/ray0987/camera-trap-demo-models/resolve/main/"></script>
+</body>
+</html>

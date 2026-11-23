@@ -40,6 +40,8 @@ The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech
 | Cite / credit | Microsoft AI for Good Lab, Pytorch-Wildlife (Zhongqi Miao et al., *Pytorch-Wildlife: A Collaborative Deep Learning Framework for Conservation*, arXiv:2405.12930). RT-DETRv2: Wenyu Lv et al., arXiv:2407.17140. |
 
 
+**In-browser demo.** `scripts/export_onnx.py` converts MDv6 and DINOv2-small plus the probe to ONNX (weights stored as float16). These derived files are redistributed with attribution in the public Hugging Face model repo https://huggingface.co/ray0987/camera-trap-demo-models (model card lists the sources and licences: MDv6 CC BY 4.0 / Apache-2.0, DINOv2 Apache-2.0), together with six public-domain example clips. The page loads `onnxruntime-web` 1.22.0 (MIT, Microsoft) from the jsDelivr CDN with a Subresource Integrity hash.
+
 ## 3. Pretrained model: DINOv2-small
 | | |
 |---|---|
@@ -50,7 +52,7 @@ The Phase 6 mitigation uses the bounding boxes in LILA's published file `caltech
 We rely on the Apache-2.0 licence stated on that model card. Weights are used frozen and unmodified.
 
 ## 4. Python packages
-84 pinned packages (`requirements.txt`; 64 before the video stage added `opencv-python`, `gradio`, `imageio-ffmpeg` and their dependencies). `scripts/13_collect_licenses.py` reads each package's declared licence, copies the licence files it ships into `licenses/third_party/` (regenerate locally; that folder is not committed), and also checks the title of each shipped licence file, because declared metadata can be wrong (it caught `ultralytics-yolov5` declaring Apache while shipping GPL-3.0; that package is no longer a dependency). Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
+91 pinned packages (`requirements.txt`; 64 before the video stage added `opencv-python`, `gradio`, `imageio-ffmpeg`, the ONNX export tools `onnx`, `onnxscript`, `onnxruntime`, and their dependencies). `scripts/13_collect_licenses.py` reads each package's declared licence, copies the licence files it ships into `licenses/third_party/` (regenerate locally; that folder is not committed), and also checks the title of each shipped licence file, because declared metadata can be wrong (it caught `ultralytics-yolov5` declaring Apache while shipping GPL-3.0; that package is no longer a dependency). Table: `THIRD_PARTY_LICENSES.md`; machine-readable: `results/licenses.json`.
 - All pinned packages declare permissive licences (MIT, BSD, Apache-2.0, PSF, ISC, MIT-CMU/HPND-style, Zlib and combinations), and no shipped licence file is GPL, AGPL or LGPL.
 - One copyleft component remains, as a separate program: `imageio-ffmpeg` (BSD-2-Clause) bundles an **ffmpeg executable built with `--enable-gpl --enable-version3` (GPLv3)**. The video stage calls it as an external process to encode MP4s; it is not linked into our code and not redistributed here. Any other ffmpeg build (for example the system ffmpeg on a hosting service) works too.
 - Two packages are under MPL-2.0 (file-level copyleft): `certifi` and `tqdm` (dual MPL-2.0 AND MIT). We use them unmodified as installed dependencies and do not redistribute them.

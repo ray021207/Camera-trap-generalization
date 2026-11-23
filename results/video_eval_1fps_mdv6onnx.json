@@ -1,0 +1,223 @@
+{
+  "fps": "1fps_mdv6onnx",
+  "n_clips": 23,
+  "n_sites": 13,
+  "n_boot": 10000,
+  "seed": 42,
+  "cluster": "region (site)",
+  "tiers": {
+    "1": 11,
+    "2": 5,
+    "3": 7
+  },
+  "overlap_risk": {
+    "low": 16,
+    "medium": 5,
+    "high": 2
+  },
+  "known": {
+    "all": {
+      "n": 16,
+      "mean": 0.6875,
+      "ci": [
+        0.38461538461538464,
+        0.8666666666666667
+      ],
+      "n_clusters": 9
+    },
+    "tier1": {
+      "n": 11,
+      "mean": 0.6363636363636364,
+      "ci": [
+        0.16666666666666666,
+        0.8571428571428571
+      ],
+      "n_clusters": 6
+    },
+    "tier2": {
+      "n": 5,
+      "mean": 0.8,
+      "ci": [
+        0.5714285714285714,
+        1.0
+      ],
+      "n_clusters": 4
+    },
+    "low_overlap_risk": {
+      "n": 12,
+      "mean": 0.6666666666666666,
+      "ci": [
+        0.375,
+        0.8571428571428571
+      ],
+      "n_clusters": 7
+    },
+    "median_conf_correct": 0.797763,
+    "median_conf_wrong": 0.3317319298245615,
+    "per_class": {
+      "bird": {
+        "n": 2,
+        "correct": 1
+      },
+      "bobcat": {
+        "n": 3,
+        "correct": 2
+      },
+      "coyote": {
+        "n": 2,
+        "correct": 1
+      },
+      "dog": {
+        "n": 1,
+        "correct": 1
+      },
+      "raccoon": {
+        "n": 6,
+        "correct": 4
+      },
+      "skunk": {
+        "n": 1,
+        "correct": 1
+      },
+      "squirrel": {
+        "n": 1,
+        "correct": 1
+      }
+    },
+    "errors": [
+      {
+        "clip_id": "v053",
+        "true_species": "raccoon",
+        "pred": "squirrel",
+        "conf": 0.3317319298245615
+      },
+      {
+        "clip_id": "v056",
+        "true_species": "raccoon",
+        "pred": "bobcat",
+        "conf": 0.33269
+      },
+      {
+        "clip_id": "v057",
+        "true_species": "bobcat",
+        "pred": "squirrel",
+        "conf": 0.3476736363636364
+      },
+      {
+        "clip_id": "v064",
+        "true_species": "red-breasted toucan",
+        "pred": "squirrel",
+        "conf": 0.2805983870967742
+      },
+      {
+        "clip_id": "v067",
+        "true_species": "coyote",
+        "pred": "skunk",
+        "conf": 0.21625749999999996
+      }
+    ]
+  },
+  "unknown": {
+    "n": 7,
+    "detected": 7,
+    "sensible": {
+      "n": 7,
+      "mean": 0.7142857142857143,
+      "ci": [
+        0.4,
+        1.0
+      ],
+      "n_clusters": 5
+    },
+    "median_conf": 0.5218449999999999,
+    "answers": [
+      {
+        "clip_id": "v049",
+        "true_species": "gray fox",
+        "pred": "coyote",
+        "conf": 0.402006,
+        "sensible_classes": "coyote|dog"
+      },
+      {
+        "clip_id": "v050",
+        "true_species": "American black bear",
+        "pred": "bobcat",
+        "conf": 0.23461285714285715,
+        "sensible_classes": ""
+      },
+      {
+        "clip_id": "v059",
+        "true_species": "mountain lion (kitten)",
+        "pred": "bobcat",
+        "conf": 0.3830811363636364,
+        "sensible_classes": "bobcat|cat"
+      },
+      {
+        "clip_id": "v060",
+        "true_species": "mountain lion",
+        "pred": "bobcat",
+        "conf": 0.7638863636363635,
+        "sensible_classes": "bobcat|cat"
+      },
+      {
+        "clip_id": "v061",
+        "true_species": "gray wolf",
+        "pred": "dog",
+        "conf": 0.7083075862068966,
+        "sensible_classes": "coyote|dog"
+      },
+      {
+        "clip_id": "v062",
+        "true_species": "gray wolf",
+        "pred": "coyote",
+        "conf": 0.5218449999999999,
+        "sensible_classes": "coyote|dog"
+      },
+      {
+        "clip_id": "v065",
+        "true_species": "European badger",
+        "pred": "skunk",
+        "conf": 0.55442,
+        "sensible_classes": ""
+      }
+    ]
+  },
+  "confidence_cutoff_sweep": [
+    {
+      "threshold": 0.3,
+      "known_correct_flagged": 0.0,
+      "known_wrong_flagged": 0.4,
+      "unknown_flagged": 0.14285714285714285
+    },
+    {
+      "threshold": 0.4,
+      "known_correct_flagged": 0.09090909090909091,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.2857142857142857
+    },
+    {
+      "threshold": 0.5,
+      "known_correct_flagged": 0.18181818181818182,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.42857142857142855
+    },
+    {
+      "threshold": 0.6,
+      "known_correct_flagged": 0.2727272727272727,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.7142857142857143
+    },
+    {
+      "threshold": 0.7,
+      "known_correct_flagged": 0.45454545454545453,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 0.7142857142857143
+    },
+    {
+      "threshold": 0.8,
+      "known_correct_flagged": 0.5454545454545454,
+      "known_wrong_flagged": 1.0,
+      "unknown_flagged": 1.0
+    }
+  ]
+}

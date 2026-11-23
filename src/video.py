@@ -167,8 +167,37 @@ class MDv5aDetector:
         return r.get("detections") or []
 
 
+ONNX_DIR = DATA / "onnx"
+ONNX_FILES = dict(detector="mdv6_rtdetr_c_fp16w.onnx", classifier="classifier_fp16w.onnx")   # the files the web demo loads
+
+
+class OnnxDetector(MDv6Detector):
+    """MDv6 through the exported ONNX graph (scripts/export_onnx.py), i.e. exactly what the web demo runs."""
+    name = "mdv6onnx"
+
+    def __init__(self, path: Path | None = None):
+        import onnxruntime as ort
+        import torchvision.transforms as T
+        self.sess = ort.InferenceSession(str(path or ONNX_DIR / ONNX_FILES["detector"]), providers=["CPUExecutionProvider"])
+        self.tf = T.Compose([T.Resize((640, 640)), T.ToTensor()])
+
+    def __call__(self, img):
+        W, H = img.size
+        labels, boxes, scores = self.sess.run(None, {"images": self.tf(img)[None].numpy(),
+                                                     "orig_target_sizes": np.array([[W, H]], dtype=np.int64)})
+        dets = []
+        for c, (x0, y0, x1, y1), s in zip(labels[0], boxes[0], scores[0]):
+            if s < MD_CONF:
+                continue
+            x0, y0, x1, y1 = max(0.0, float(x0)), max(0.0, float(y0)), min(W, float(x1)), min(H, float(y1))
+            if x1 <= x0 or y1 <= y0:
+                continue
+            dets.append(dict(category=str(int(c) + 1), conf=float(s), bbox=[x0 / W, y0 / H, (x1 - x0) / W, (y1 - y0) / H]))
+        return dets
+
+
 def Detector(name: str = DETECTOR):
-    return {"mdv6": MDv6Detector, "mdv5a": MDv5aDetector}[name]()
+    return {"mdv6": MDv6Detector, "mdv5a": MDv5aDetector, "mdv6onnx": OnnxDetector}[name]()
 
 
 # ---- classifier -------------------------------------------------------------------------
@@ -223,7 +252,27 @@ def load_probe(path: Path = PROBE_NPZ):
                 classes=[str(c) for c in z["classes"]], C=float(z["C"]), check_max_abs_diff=float(z["check_max_abs_diff"]))
 
 
-class Classifier:
+class OnnxClassifier:
+    """DINOv2 + probe through the exported (8-bit weight) ONNX graph, i.e. exactly what the web demo runs."""
+
+    def __init__(self, path: Path | None = None):
+        import onnxruntime as ort
+        self.sess = ort.InferenceSession(str(path or ONNX_DIR / ONNX_FILES["classifier"]), providers=["CPUExecutionProvider"])
+        self.classes = load_probe()["classes"]
+
+    def proba(self, crops):
+        from src import preprocess as P
+        x = np.stack([P.to_tensor_normalized(P.resize_crop(c)).numpy() for c in crops])
+        return self.sess.run(None, {"pixel_values": x})[0]
+
+
+def Classifier(name: str | None = None):
+    """'torch' (default) or 'onnx'; defaults to 'onnx' when the ONNX detector is selected."""
+    name = name or ("onnx" if DETECTOR == "mdv6onnx" else "torch")
+    return OnnxClassifier() if name == "onnx" else TorchClassifier()
+
+
+class TorchClassifier:
     def __init__(self):
         import torch
         from transformers import AutoModel

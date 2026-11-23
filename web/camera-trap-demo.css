@@ -1,0 +1,48 @@
+/* Camera-trap demo widget. Uses the portfolio's variables when present, with fallbacks for the standalone page. */
+#ct-demo {
+  --ct-forest: var(--forest, #102d25);
+  --ct-moss: var(--moss, #486e5b);
+  --ct-paper: var(--paper, #f2eee3);
+  --ct-line: var(--line, #cfd0c0);
+  --ct-ink: var(--ink, #17342c);
+  --ct-quiet: var(--quiet, #5f7569);
+  --ct-copper: var(--copper, #c18b57);
+  font-family: var(--font-sans, 'DM Sans', system-ui, sans-serif);
+  color: var(--ct-ink);
+  background: #fbf9f3;
+  border: 1px solid var(--ct-line);
+  padding: 22px;
+  margin: 24px 0 8px;
+}
+#ct-demo .ct-label { font: 500 12px/1 var(--font-mono, 'DM Mono', monospace); letter-spacing: .08em; text-transform: uppercase; color: var(--ct-quiet); margin: 0 0 10px; }
+#ct-demo .ct-examples { display: flex; flex-wrap: wrap; gap: 8px; }
+#ct-demo .ct-ex, #ct-demo .ct-upload {
+  font: 500 14px/1 var(--font-sans, system-ui, sans-serif); cursor: pointer; border: 1px solid var(--ct-moss);
+  background: transparent; color: var(--ct-forest); padding: 10px 14px; min-height: 40px; border-radius: 0;
+}
+#ct-demo .ct-ex:hover, #ct-demo .ct-ex:focus-visible { background: var(--ct-paper); }
+#ct-demo .ct-upload { background: var(--ct-forest); color: #fff; border-color: var(--ct-forest); display: inline-flex; align-items: center; }
+#ct-demo .ct-upload:hover { background: var(--ct-moss); }
+#ct-demo .ct-file { position: absolute; width: 1px; height: 1px; opacity: 0; }
+#ct-demo .ct-file:focus-visible + select, #ct-demo .ct-upload:focus-within { outline: 2px solid var(--ct-copper); }
+#ct-demo .ct-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 18px 0 6px; }
+#ct-demo select { font: inherit; font-size: 14px; min-height: 40px; padding: 0 8px; border: 1px solid var(--ct-line); background: #fff; color: var(--ct-ink); }
+#ct-demo .ct-hint { font-size: 13px; color: var(--ct-quiet); }
+#ct-demo .ct-progress { margin: 10px 0 12px; }
+#ct-demo .ct-status { font-size: 14px; color: var(--ct-quiet); margin: 0 0 6px; min-height: 1.4em; }
+#ct-demo .ct-bar { height: 3px; background: var(--ct-line); }
+#ct-demo .ct-bar span { display: block; height: 100%; width: 0; background: var(--ct-copper); transition: width .2s; }
+#ct-demo .ct-stage { position: relative; background: #0e1a16; aspect-ratio: 16 / 9; }
+#ct-demo .ct-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+#ct-demo .ct-overlay { position: absolute; inset: 0; width: 100%; height: calc(100% - 44px); pointer-events: none; }
+#ct-demo .ct-verdict { margin-top: 16px; }
+#ct-demo .ct-verdict h3 { font: 400 24px/1.25 var(--font-serif, Georgia, serif); margin: 0 0 6px; color: var(--ct-forest); }
+#ct-demo .ct-verdict p { font-size: 15px; line-height: 1.6; margin: 0 0 6px; color: #415c4d; }
+#ct-demo .ct-warn { background: #f7ead9; border-left: 3px solid var(--ct-copper); padding: 8px 12px; }
+#ct-demo .ct-note { font-size: 13px !important; color: var(--ct-quiet) !important; }
+#ct-demo .ct-table { margin-top: 10px; font-size: 14px; }
+#ct-demo .ct-table summary { cursor: pointer; color: var(--ct-forest); padding: 6px 0; }
+#ct-demo .ct-table table { width: 100%; border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+#ct-demo .ct-table th, #ct-demo .ct-table td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--ct-line); }
+#ct-demo.ct-busy .ct-ex, #ct-demo.ct-busy .ct-upload { opacity: .5; pointer-events: none; }
+@media (max-width: 560px) { #ct-demo { padding: 16px; } #ct-demo .ct-hint { flex-basis: 100%; } }

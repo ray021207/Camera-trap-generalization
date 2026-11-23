@@ -10,10 +10,12 @@
     "description": "Database of camera trap images collected from the NPS and the USGS with help from Justin Brown and Erin Boydston",
     "year": 2018
   },
-  "n_packages": 84,
+  "n_packages": 91,
   "flagged": [],
   "no_licence_file_copied": [
+    "flatbuffers",
     "gradio-client",
+    "onnxruntime",
     "tokenizers"
   ],
   "packages": [
@@ -132,6 +134,13 @@
       "files": [
         "LICENSE"
       ],
+      "flagged": false
+    },
+    {
+      "package": "flatbuffers",
+      "version": "25.12.19",
+      "license": "Apache 2.0",
+      "files": [],
       "flagged": false
     },
     {
@@ -343,6 +352,16 @@
       "flagged": false
     },
     {
+      "package": "ml-dtypes",
+      "version": "0.7.0",
+      "license": "Apache-2.0",
+      "files": [
+        "LICENSE",
+        "LICENSE.eigen"
+      ],
+      "flagged": false
+    },
+    {
       "package": "mpmath",
       "version": "1.3.0",
       "license": "BSD",
@@ -401,6 +420,41 @@
         "LICENSE.md",
         "LICENSE.md",
         "LICENSE.md"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "onnx",
+      "version": "1.23.2",
+      "license": "Apache-2.0",
+      "files": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "onnx-ir",
+      "version": "1.1.0",
+      "license": "Apache-2.0",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "onnxruntime",
+      "version": "1.32.0",
+      "license": "MIT License",
+      "files": [],
+      "flagged": false
+    },
+    {
+      "package": "onnxscript",
+      "version": "0.7.2",
+      "license": "MIT License",
+      "files": [
+        "LICENSE"
       ],
       "flagged": false
     },
@@ -475,6 +529,15 @@
       "package": "pillow",
       "version": "13.0.0",
       "license": "MIT-CMU",
+      "files": [
+        "LICENSE"
+      ],
+      "flagged": false
+    },
+    {
+      "package": "protobuf",
+      "version": "7.36.2",
+      "license": "3-Clause BSD License",
       "files": [
         "LICENSE"
       ],

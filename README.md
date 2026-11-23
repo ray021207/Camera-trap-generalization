@@ -112,6 +112,8 @@ How to read this:
 
 Every clip is public domain or Creative Commons. Sources, authors, licences and checksums are in [results/video_clips.csv](results/video_clips.csv). The videos themselves are not in this repo.
 
+**Try it in your browser:** [live demo on the project page](https://ray021207.github.io/portfolio_v2/projects/camera-trap-location-shift.html). Both models run inside the browser through onnxruntime-web (`web/`, built by `scripts/export_onnx.py` and `scripts/build_web_demo.py`; model files on [Hugging Face](https://huggingface.co/ray0987/camera-trap-demo-models)). Run through the same ONNX files, the 23 test clips give the same verdict as the PyTorch pipeline on every clip (`results/video_eval_1fps_mdv6onnx.json`).
+
 **Try it on your own video.** `python scripts/demo_app.py` opens the demo locally: pick an example or upload a clip, and get it back with a box, species and confidence on each analysed frame, plus the per-clip answer. The same app (`space/app.py`) is built for Hugging Face Spaces with `python scripts/build_space.py`. `python scripts/15_video_predict.py --source 0 --show` runs live from a webcam.
 
 ## Limitations
@@ -183,4 +185,6 @@ python scripts/15_video_predict.py                    # run the pipeline on ever
 python scripts/16_video_evaluate.py                   # per-visit accuracy with site-cluster bootstrap CIs; fills the video table above
 python scripts/build_space.py                         # optional: assemble the web demo (app, probe, MDv6 weights, example results) in build/space/
 python scripts/demo_app.py                            # optional: run the web demo locally (http://127.0.0.1:7860)
+python scripts/export_onnx.py                         # optional: ONNX export for the in-browser demo (+ checks against PyTorch)
+python scripts/build_web_demo.py                      # optional: model files, config and example results for the in-browser demo, in build/web/
 ```

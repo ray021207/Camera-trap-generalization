@@ -1,0 +1,13 @@
+{
+  "fps": 1.0,
+  "n_clips": 23,
+  "n_frames": 686,
+  "md_conf": 0.2,
+  "detector": "mdv6onnx",
+  "probe_C": 0.01,
+  "probe_check_max_abs_diff": 1.2510702880330626e-06,
+  "model_load_seconds": 0.6,
+  "md_seconds_per_frame_median": 0.16529615000035847,
+  "classifier_seconds_per_crop_median": 0.07130965000396827,
+  "torch_threads": 8
+}
